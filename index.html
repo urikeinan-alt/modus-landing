@@ -1,0 +1,2511 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modus — AI for Law Firms</title>
+<meta name="description" content="Modus learns how your firm works and puts your workflows to work. AI built for law firms, not everyone.">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&family=Frank+Ruhl+Libre:wght@400;700;900&family=Heebo:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700;900&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:      #1B2B4B;
+  --navylight: #EEF1F8;
+  --gold:      #c9a84c;
+  --goldx:     rgba(201,168,76,.10);
+  --goldb:     rgba(201,168,76,.28);
+  --ivory:     #e8e4dc;
+  --warm:      #f8f6f2;
+  --border:    #dde3ec;
+  --text:      #1a1a1a;
+  --muted:     #6b7a8d;
+  --subtle:    #3a4a5e;
+  --max:       1100px;
+  --r:         10px;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Heebo', Arial, sans-serif;
+  color: var(--text);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body.he { font-family: 'Rubik', Arial, sans-serif; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 48px; }
+.gold-bar { height: 3px; background: linear-gradient(to right, #7a5510, var(--gold), #7a5510); flex-shrink: 0; }
+body.he .gold-bar { background: linear-gradient(to left, #7a5510, var(--gold), #7a5510); }
+
+/* ── HEADER ── */
+.hdr {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--navy);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  transition: box-shadow .3s;
+}
+.hdr.scrolled { box-shadow: 0 4px 40px rgba(0,0,0,.5); }
+.hdr-in {
+  max-width: var(--max); margin: 0 auto; padding: 0 48px;
+  height: 68px; display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 20px; letter-spacing: .14em; color: var(--ivory);
+  text-transform: uppercase; text-decoration: none;
+  display: inline-flex; flex-direction: column; gap: 5px; line-height: 1;
+  direction: ltr;
+}
+.logo-m { position: relative; display: inline-block; }
+.logo-m::after {
+  content: '';
+  position: absolute;
+  width: 3.5px; height: 3.5px;
+  background: var(--gold);
+  border-radius: 50%;
+  top: 2px; right: -2px;
+}
+.logo-tag {
+  font-size: 8px; font-weight: 600; letter-spacing: 0;
+  color: var(--gold); text-transform: uppercase; opacity: .82;
+  white-space: nowrap; align-self: flex-start;
+}
+.hdr-right { display: flex; align-items: center; gap: 18px; }
+.lang-btn {
+  background: none; border: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.55); font-family: 'Montserrat', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  padding: 6px 13px; border-radius: 4px; cursor: pointer; transition: all .2s;
+}
+.lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+.btn-hdr {
+  background: var(--gold); color: var(--navy);
+  font-family: 'Montserrat', sans-serif; font-size: 12px;
+  font-weight: 700; letter-spacing: .07em;
+  padding: 10px 22px; border-radius: 5px; text-decoration: none;
+  transition: opacity .2s; white-space: nowrap;
+}
+.btn-hdr:hover { opacity: .85; }
+
+/* ── HERO ── */
+.hero {
+  background: #f5f3ef; min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 90px 48px 60px; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -160px; right: -160px;
+  width: 580px; height: 580px;
+  background: radial-gradient(circle, rgba(27,43,75,.06) 0%, transparent 68%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -80px; left: -80px;
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(201,168,76,.07) 0%, transparent 68%);
+  pointer-events: none;
+}
+.hero-in {
+  max-width: var(--max); margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr;
+  max-width: 740px; position: relative; z-index: 1;
+}
+.hero-eyebrow {
+  font-size: 10.5px; font-weight: 600; letter-spacing: .24em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+}
+.hero-h1 {
+  font-family: 'EB Garamond', 'Frank Ruhl Libre', serif; font-size: 58px;
+  font-weight: 800; color: var(--navy); line-height: 1.12; margin-bottom: 16px;
+  letter-spacing: -.01em;
+}
+body.he .hero-h1 { font-family: 'Rubik', sans-serif; font-size: 44px; }
+.hero-h1 em { font-style: normal; color: var(--gold); }
+.hero-p {
+  font-size: 17px; color: var(--subtle); line-height: 1.75;
+  font-weight: 400; max-width: 540px; margin-bottom: 26px;
+}
+.hero-p strong { color: var(--navy); font-weight: 600; }
+.hero-btns { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--gold); color: var(--navy);
+  font-family: 'Montserrat', sans-serif; font-size: 13px;
+  font-weight: 700; letter-spacing: .07em;
+  padding: 16px 34px; border-radius: 6px; text-decoration: none;
+  transition: opacity .2s, transform .15s; display: inline-block;
+}
+.btn-primary:hover { opacity: .87; transform: translateY(-1px); }
+.btn-ghost {
+  font-size: 14px; color: var(--muted);
+  text-decoration: none; display: flex; align-items: center;
+  gap: 7px; transition: color .2s;
+}
+.btn-ghost:hover { color: var(--navy); }
+.hero-minis {
+  display: flex; gap: 0; margin-top: 32px; padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+.hero-mini {
+  flex: 1; padding: 0 28px 0 0;
+}
+.hero-mini { padding: 0 28px; }
+.hero-mini:first-child { padding-left: 0; }
+.hero-mini:last-child { padding-right: 0; }
+.hero-sep { width: 1px; background: var(--border); align-self: stretch; flex-shrink: 0; }
+body.he .hero-mini { text-align: right; }
+.mini-n {
+  font-family: 'Montserrat', sans-serif; font-size: 26px;
+  font-weight: 700; color: var(--navy); line-height: 1;
+  display: block; direction: ltr;
+}
+.mini-l {
+  font-size: 12px; color: var(--muted); margin-top: 5px;
+  line-height: 1.5; font-weight: 400;
+}
+
+/* ── NAV LINKS ── */
+.hdr-nav { display: flex; align-items: center; gap: 6px; }
+.hdr-nav a {
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: .06em; color: rgba(255,255,255,.45); text-decoration: none;
+  padding: 6px 10px; border-radius: 4px; transition: color .2s;
+  white-space: nowrap;
+}
+.hdr-nav a:hover { color: rgba(255,255,255,.85); }
+
+/* ── SECTIONS ── */
+.sec { padding: 80px 48px; }
+.sec-warm { background: var(--warm); }
+.sec-navylight { background: var(--navylight); }
+.sec-white { background: #fff; }
+.sec-navy { background: var(--navy); }
+
+.sec-tag {
+  font-size: 10px; font-weight: 600; letter-spacing: .24em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+}
+.sec-h2 {
+  font-family: 'EB Garamond', 'Frank Ruhl Libre', serif; font-size: 42px;
+  font-weight: 700; color: var(--navy); line-height: 1.18; margin-bottom: 10px;
+  letter-spacing: -.01em;
+}
+body.he .sec-h2 { font-family: 'Rubik', sans-serif; }
+.sec-h2.light { color: #fff; }
+.sec-sub {
+  font-size: 17px; color: var(--muted); line-height: 1.75;
+  font-weight: 400; max-width: 500px; margin-bottom: 0;
+}
+.sec-sub.light { color: #8fa8c0; }
+.sec-head { margin-bottom: 22px; }
+
+/* ── STEPS ── */
+.steps {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+}
+.step {
+  background: #fff; border: 1px solid var(--border);
+  border-top: 3px solid var(--gold); border-radius: var(--r);
+  padding: 22px 20px; transition: box-shadow .2s, transform .2s;
+}
+.step:hover { box-shadow: 0 6px 24px rgba(27,43,75,.08); transform: translateY(-2px); }
+.step-n {
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  font-weight: 700; color: var(--muted); letter-spacing: .12em; margin-bottom: 12px;
+}
+.step-t { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.3; }
+.step-d { font-size: 15px; color: var(--subtle); line-height: 1.7; font-weight: 400; }
+
+/* ── USE CASES ── */
+.uc-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+}
+.uc {
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: 22px 20px; position: relative; overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+}
+.uc:hover { border-color: var(--goldb); box-shadow: 0 4px 18px rgba(0,0,0,.06); }
+.uc::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: var(--gold); opacity: .35; transition: opacity .2s;
+}
+.uc:hover::before { opacity: 1; }
+.uc-t { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.uc-d { font-size: 14px; color: var(--muted); line-height: 1.6; font-weight: 400; }
+.uc.gold {
+  grid-column: 1 / -1; background: var(--goldx); border-color: var(--goldb);
+}
+.uc.gold::before { opacity: 1; }
+.uc.gold .uc-t { font-size: 16px; }
+.uc.gold .uc-d { color: var(--subtle); }
+
+/* ── CONTRAST ── */
+.cmp {
+  display: grid; grid-template-columns: 90px 1fr 1fr;
+  border-radius: var(--r); overflow: hidden;
+  border: 1px solid rgba(255,255,255,.07);
+}
+.cmp-col-head {
+  padding: 14px 24px; font-size: 12px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+.cmp-col-head.lbl { background: rgba(255,255,255,.02); border-right: 1px solid rgba(255,255,255,.07); border-bottom: 1px solid rgba(255,255,255,.10); }
+.cmp-col-head.g { color: var(--gold); background: rgba(201,168,76,.12); }
+.cmp-col-head.d { color: #a0b2be; background: rgba(255,255,255,.05);
+  border-right: 1px solid rgba(255,255,255,.10); }
+.cmp-label {
+  display: flex; align-items: center;
+  padding: 14px 16px; font-size: 10px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(201,168,76,.55); border-right: 1px solid rgba(255,255,255,.07);
+}
+.cmp-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 24px; font-size: 16px; line-height: 1.6;
+}
+.cmp-row.cmp-d { color: #c5d2dc; border-right: 1px solid rgba(255,255,255,.07); }
+.cmp-row.cmp-g { color: #dde6ec; }
+.cmp-row.cmp-g strong { color: #fff; }
+/* Alternating row colours — 3 cells per row now */
+.cmp > .cmp-label:nth-child(6n+4),
+.cmp > .cmp-row:nth-child(6n+5),
+.cmp > .cmp-row:nth-child(6n+6) { background: rgba(255,255,255,.04); }
+.cmp > .cmp-label:nth-child(6n+7),
+.cmp > .cmp-row:nth-child(6n+8),
+.cmp > .cmp-row:nth-child(6n+9) { background: rgba(201,168,76,.06); }
+.cmp > .cmp-row:nth-child(4n+2) { background: rgba(201,168,76,.04); }
+.dot6 {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 6px;
+}
+.dot6.g { background: var(--gold); }
+.dot6.d { background: #5a6a7a; }
+
+/* ── QUOTES ── */
+.quotes { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.qcard {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--r); padding: 24px 22px;
+  transition: box-shadow .2s, border-color .2s;
+}
+.qcard:hover { box-shadow: 0 6px 24px rgba(27,43,75,.08); border-color: rgba(27,43,75,.15); }
+.qcard { display: flex; flex-direction: column; }
+.qavatar {
+  width: 40px; height: 40px; background: var(--navylight);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700;
+  color: var(--navy); margin-bottom: 16px; flex-shrink: 0;
+  border: 1.5px solid var(--border);
+}
+.qmark {
+  font-family: 'EB Garamond', Georgia, serif; font-size: 52px;
+  color: var(--navy); line-height: .75; margin-bottom: 10px; opacity: .12;
+}
+.qtext {
+  font-size: 16px; color: var(--subtle); line-height: 1.7;
+  font-weight: 400; font-style: italic; margin-bottom: 14px;
+}
+.qattr { font-size: 13px; font-weight: 700; color: var(--navy); }
+.qattr span { font-weight: 300; color: var(--muted); display: block; margin-top: 2px; font-style: normal; }
+
+/* ── TEAM ── */
+.team { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; max-width: 740px; }
+.tcard {
+  display: flex; align-items: center; gap: 18px;
+  background: var(--warm); border-radius: var(--r); padding: 20px;
+}
+.tinit {
+  width: 52px; height: 52px; background: var(--navy);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-family: 'Montserrat', sans-serif;
+  font-size: 18px; font-weight: 700; color: var(--gold); flex-shrink: 0;
+}
+.tname { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.tbio { font-size: 14px; color: var(--muted); font-weight: 400; line-height: 1.55; }
+
+/* ── FOOTER CTA ── */
+.fcta {
+  background: var(--navy); padding: 70px 48px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.fcta::before {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%); width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(201,168,76,.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.fcta-h {
+  font-family: 'EB Garamond', 'Frank Ruhl Libre', serif; font-size: 50px;
+  font-weight: 700; color: #fff; margin-bottom: 14px; position: relative;
+  letter-spacing: -.01em;
+}
+body.he .fcta-h { font-family: 'Rubik', sans-serif; }
+.fcta-trust {
+  font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gold); opacity: .85; margin-bottom: 16px; position: relative;
+}
+.fcta-p {
+  font-size: 17px; color: #8fa8c0; margin-bottom: 28px;
+  font-weight: 400; position: relative;
+}
+.fcta .btn-primary { position: relative; font-size: 14px; padding: 18px 42px; }
+.fcta-secondary {
+  display: block; margin-top: 18px; font-size: 13px; color: rgba(255,255,255,.32);
+  text-decoration: none; transition: color .2s; position: relative;
+}
+.fcta-secondary:hover { color: rgba(255,255,255,.6); }
+
+/* ── FOOTER BAR ── */
+.fbar {
+  background: #080c10; padding: 20px 48px;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.fbar-logo {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 13px; letter-spacing: .14em; color: var(--ivory);
+  text-transform: uppercase; direction: ltr;
+}
+.fbar-logo .logo-m::after { width: 2.5px; height: 2.5px; top: 1px; right: -1.5px; }
+.fbar-contacts { display: flex; align-items: center; gap: 10px; direction: ltr; }
+.fbar-contacts a { font-size: 13px; color: #8a9aaa; text-decoration: none; transition: color .2s; }
+.fbar-contacts a:hover { color: var(--gold); }
+.fbar-contacts .sep { color: #2a3a4a; }
+.fbar-copy { font-size: 12px; color: #3a4a5a; }
+
+/* ── DEMO WIDGET ── */
+.demo-sec { background: var(--navylight); }
+.demo-sec .sec-tag { color: var(--gold); }
+.demo-sec .sec-h2 { color: var(--navy); }
+.demo-sec .sec-sub { color: var(--muted); }
+.demo-tabs { display: flex; gap: 0; margin-bottom: 22px; border-bottom: 1px solid var(--border); }
+.demo-tab { font-size: 15px; font-weight: 600; letter-spacing: .02em; color: var(--muted); background: none; border: none; cursor: default; padding: 10px 28px 12px; position: relative; transition: color .4s ease; font-family: inherit; user-select: none; }
+.demo-tab::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transition: transform .5s ease; transform-origin: left; }
+body.he .demo-tab::after { transform-origin: right; }
+.demo-tab.active { color: var(--navy); }
+.demo-tab.active::after { transform: scaleX(1); }
+.demo-win { background: #0a0e14; border-radius: 10px; border: 1px solid rgba(255,255,255,.10); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+.demo-titlebar { background: #131a22; padding: 11px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.demo-dots { display: flex; gap: 6px; }
+.demo-dot { width: 12px; height: 12px; border-radius: 50%; }
+.demo-dot.r { background: #ff5f57; } .demo-dot.y { background: #ffbd2e; } .demo-dot.g { background: #28c841; }
+.demo-title-text { font-size: 12px; color: #8aaabb; font-family: 'Montserrat',sans-serif; font-weight: 600; letter-spacing: .06em; margin-left: 6px; flex: 1; text-align: center; margin-right: 40px; }
+.demo-stage { position: relative; min-height: 420px; }
+.demo-slide { position: absolute; inset: 0; padding: 28px 32px; display: flex; flex-direction: column; opacity: 0; transition: opacity .45s ease; pointer-events: none; }
+.demo-slide.active { opacity: 1; pointer-events: auto; }
+/* Slide 0 — received */
+.demo-recv-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #6a8a9e; margin-bottom: 10px; }
+.demo-recv-count { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; }
+.demo-recv-num { font-family: 'Montserrat',sans-serif; font-size: 58px; font-weight: 700; color: var(--gold); line-height: 1; }
+.demo-recv-label { font-size: 17px; font-weight: 600; color: #c8dae4; line-height: 1.3; }
+.demo-recv-files { display: flex; flex-direction: column; gap: 7px; }
+.demo-dc { background: #131d26; border: 1px solid rgba(255,255,255,.09); border-radius: 6px; padding: 9px 14px; display: flex; align-items: center; gap: 12px; opacity: 0; transform: translateY(10px); transition: opacity .3s ease, transform .3s ease; }
+.demo-dc.vis { opacity: 1; transform: none; }
+.demo-dc-icon { width: 26px; height: 32px; background: #1e2d3d; border-radius: 3px; flex-shrink: 0; position: relative; border: 1px solid rgba(255,255,255,.12); }
+.demo-dc-icon::after { content: ''; position: absolute; bottom: 4px; left: 4px; right: 4px; height: 1.5px; background: rgba(201,168,76,.4); box-shadow: 0 -3px 0 rgba(201,168,76,.22), 0 -6px 0 rgba(201,168,76,.1); }
+.demo-dc-name { font-size: 12px; color: #b0c4d4; }
+.demo-dc-size { font-size: 10px; color: #6a8090; margin-top: 2px; }
+/* Slide 1 — analyzing */
+.demo-slide-analyze { align-items: center; justify-content: center; text-align: center; }
+.demo-analyze-ring { position: relative; width: 76px; height: 76px; margin-bottom: 22px; flex-shrink: 0; }
+.demo-analyze-ring::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(201,168,76,.15); }
+.demo-analyze-ring::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--gold); animation: dSpin 1.1s linear infinite; }
+@keyframes dSpin { to { transform: rotate(360deg); } }
+.demo-analyze-glow { position: absolute; inset: 8px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,.12) 0%, transparent 70%); }
+.demo-analyze-title { font-size: 19px; font-weight: 700; color: #d8eaf2; margin-bottom: 6px; }
+.demo-analyze-sub { font-size: 13px; color: #7a9aaa; margin-bottom: 18px; }
+.demo-analyze-steps { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; max-width: 300px; }
+.demo-analyze-step { font-size: 12px; color: #7a9aaa; display: flex; align-items: center; gap: 8px; opacity: 0; transition: opacity .4s ease; }
+.demo-analyze-step.vis { opacity: 1; }
+.demo-analyze-step::before { content: '›'; color: var(--gold); font-weight: 700; font-size: 15px; }
+/* Slide 2 — output */
+.demo-output-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.demo-output-check { width: 22px; height: 22px; border-radius: 50%; background: rgba(40,200,65,.15); border: 1px solid rgba(40,200,65,.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; color: #50d070; }
+.demo-output-check.warn { background: rgba(255,189,46,.15); border-color: rgba(255,189,46,.3); color: #ffbd2e; }
+.demo-output-headtxt { font-size: 14px; font-weight: 700; color: #c8dae4; }
+.demo-output-headtxt span { color: #7a9aaa; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.demo-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.demo-tbl thead th { font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); padding: 7px 10px; border-bottom: 1px solid rgba(201,168,76,.25); text-align: left; }
+body.he .demo-tbl thead th { text-align: right; }
+.demo-tbl-row { opacity: 0; transform: translateY(8px); transition: opacity .3s ease, transform .3s ease; }
+.demo-tbl-row.vis { opacity: 1; transform: none; }
+.demo-tbl-row td { padding: 9px 10px; color: #a0bfcc; border-bottom: 1px solid rgba(255,255,255,.05); vertical-align: middle; }
+.demo-tbl-row:nth-child(odd) td  { background: rgba(255,255,255,.025); }
+.demo-tbl-row:nth-child(even) td { background: rgba(201,168,76,.04); }
+.demo-tbl-row td:first-child { color: #d8eaf2; font-weight: 600; }
+.demo-flag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: .06em; padding: 2px 7px; border-radius: 3px; }
+.demo-flag.ok   { background: rgba(40,200,65,.15);  color: #50d070; }
+.demo-flag.warn { background: rgba(255,189,46,.15); color: #ffbd2e; }
+.demo-flag.bad  { background: rgba(255,95,87,.15);  color: #ff7a72; }
+.demo-iss { background: #0d1822; border-left: 3px solid transparent; border-radius: 0 6px 6px 0; padding: 10px 12px; margin-bottom: 7px; opacity: 0; transform: translateY(8px); transition: opacity .35s ease, transform .35s ease; }
+body.he .demo-iss { border-left: none; border-right: 3px solid transparent; border-radius: 6px 0 0 6px; }
+.demo-iss.vis { opacity: 1; transform: none; }
+.demo-iss.high { border-color: #ff5f57; } .demo-iss.med { border-color: #ffbd2e; } .demo-iss.low { border-color: #28c841; }
+.demo-iss-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.demo-iss-badge { font-size: 9px; font-weight: 700; letter-spacing: .08em; padding: 2px 6px; border-radius: 3px; }
+.demo-iss.high .demo-iss-badge { background: rgba(255,95,87,.2); color: #ff7a72; }
+.demo-iss.med  .demo-iss-badge { background: rgba(255,189,46,.2); color: #ffbd2e; }
+.demo-iss.low  .demo-iss-badge { background: rgba(40,200,65,.2);  color: #50d070; }
+.demo-iss-title { font-size: 12px; font-weight: 600; color: #9aaabb; }
+.demo-iss-body  { font-size: 11px; color: #7a9aaa; line-height: 1.5; }
+.demo-pdf { background: #131d26; border: 1px solid rgba(255,255,255,.09); border-radius: 8px; padding: 20px 18px; display: flex; align-items: center; gap: 16px; opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .45s ease; margin-top: 8px; }
+.demo-pdf.vis { opacity: 1; transform: none; }
+.demo-pdf-icon { width: 48px; height: 60px; background: #1e2d3d; border-radius: 5px; flex-shrink: 0; position: relative; border: 1px solid rgba(255,255,255,.12); display: flex; align-items: flex-end; padding-bottom: 8px; justify-content: center; }
+.demo-pdf-icon::before { content: 'PDF'; font-size: 9px; font-weight: 700; color: #c94c4c; letter-spacing: .06em; }
+.demo-pdf-icon::after { content: ''; position: absolute; top: 0; right: 0; width: 12px; height: 12px; border-bottom: 12px solid #0a0e14; border-left: 12px solid transparent; }
+.demo-pdf-name { font-size: 14px; color: #c0d0de; font-weight: 600; line-height: 1.4; margin-bottom: 4px; }
+.demo-pdf-meta { font-size: 12px; color: #7a9aaa; }
+.demo-email { background: #131d26; border: 1px solid rgba(255,255,255,.09); border-radius: 8px; padding: 18px; opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .45s ease; margin-top: 8px; }
+.demo-email.vis { opacity: 1; transform: none; }
+.demo-email-from { font-size: 11px; color: #7a9aaa; margin-bottom: 10px; }
+.demo-email-from span { color: #a0c0d0; }
+.demo-email-subj { font-size: 14px; font-weight: 700; color: #c0d0de; margin-bottom: 12px; }
+.demo-email-line { height: 9px; background: rgba(255,255,255,.08); border-radius: 3px; margin-bottom: 7px; }
+.demo-letter { background: #0d1822; border-radius: 6px; padding: 16px; }
+.demo-letter-meta { font-size: 10px; color: #7a9aaa; margin-bottom: 14px; line-height: 1.8; }
+.demo-lline { height: 9px; border-radius: 3px; margin-bottom: 7px; background: rgba(255,255,255,.09); opacity: 0; transform: translateY(6px); transition: opacity .3s ease, transform .3s ease; }
+.demo-lline.vis { opacity: 1; transform: none; }
+.demo-lline.short { width: 45%; } .demo-lline.med { width: 75%; } .demo-lline.full { width: 100%; }
+.demo-lline.sig { width: 28%; background: rgba(201,168,76,.28); margin-top: 14px; }
+.demo-lline.gap { height: 14px; background: none; }
+.demo-progress { display: flex; gap: 7px; padding: 12px; border-top: 1px solid rgba(255,255,255,.06); background: #080c10; justify-content: center; }
+.demo-prog-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.15); transition: background .3s, transform .3s; }
+.demo-prog-dot.active { background: var(--gold); transform: scale(1.3); }
+@media (max-width: 860px) {
+  .demo-slide { padding: 20px 18px; }
+  .demo-recv-num { font-size: 44px; }
+  .demo-recv-label { font-size: 14px; }
+  .demo-analyze-title { font-size: 16px; }
+}
+
+/* ── INTRO SLIDE ── */
+.demo-intro { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px 40px; opacity: 0; transition: opacity .35s ease; pointer-events: none; z-index: 5; }
+.demo-intro.show { opacity: 1; }
+.demo-intro-head { font-family: 'Montserrat',sans-serif; font-size: 34px; font-weight: 700; color: #fff; line-height: 1.25; letter-spacing: .02em; }
+.demo-intro-sub { font-size: 16px; font-weight: 400; color: rgba(255,255,255,.45); margin-top: 10px; letter-spacing: .01em; }
+
+/* ── NUMBER PULSE (tender slide 0 — after cards land) ── */
+@keyframes dPulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.18); opacity: .5; } }
+.demo-recv-num.pulse { display: inline-block; animation: dPulse 1.4s ease-in-out infinite; transform-origin: left center; }
+/* ── BEST-VALUE ROW (tender slide 2 — inside table) ── */
+.demo-tbl-row { transition: background .7s ease; }
+@keyframes dRowPulse { 0%,100% { background: rgba(197,160,85,.10); } 50% { background: rgba(197,160,85,.32); } }
+@keyframes dWinPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+.demo-tbl-row.best { animation: dRowPulse 1.6s ease-in-out infinite; }
+.demo-tbl-row.best td { color: rgba(255,255,255,.95) !important; font-weight: 700; }
+.demo-tbl-row.best td:first-child { color: var(--gold) !important; }
+.demo-winner-flag { color: var(--gold); font-size: 15px; opacity: 0; transition: opacity .5s ease; }
+.demo-tbl-row.best .demo-winner-flag { animation: dWinPulse 1.6s ease-in-out infinite; opacity: 1; }
+/* ── TOP-FINDING CARD PULSE (tabs 2 & 3 slide 2) ── */
+@keyframes dCardPulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+.demo-iss.pulse { animation: dCardPulse 1.5s ease-in-out infinite; }
+
+/* ── ANIMATIONS ── */
+.fu { opacity: 0; transform: translateY(26px); transition: opacity .65s ease, transform .65s ease; }
+.fu.on { opacity: 1; transform: none; }
+.d1 { transition-delay: .08s; }
+.d2 { transition-delay: .18s; }
+.d3 { transition-delay: .28s; }
+
+/* ── CURSOR ── */
+.demo-tab, .lang-btn, .btn-primary, .btn-ghost, .btn-hdr,
+.hdr-nav a, .logo, .fbar-contacts a, .fcta-secondary,
+.qcard, .uc, .step { cursor: pointer; }
+.demo-tab { cursor: pointer; }
+
+/* ── FOCUS STATES ── */
+.btn-primary:focus-visible, .btn-hdr:focus-visible {
+  outline: 2px solid var(--gold); outline-offset: 3px;
+}
+.lang-btn:focus-visible, .demo-tab:focus-visible {
+  outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 3px;
+}
+.hdr-nav a:focus-visible {
+  outline: 2px solid rgba(255,255,255,.55); outline-offset: 2px; border-radius: 3px;
+}
+
+/* ── COUNT-UP MINI STATS ── */
+.mini-n[data-target] { transition: none; }
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .fu { transition: none !important; opacity: 1 !important; transform: none !important; }
+  .demo-analyze-ring::after { animation: none !important; border-top-color: var(--gold); }
+  .demo-recv-num.pulse,
+  .demo-tbl-row.best,
+  .demo-iss.pulse { animation: none !important; }
+  * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .hdr-in, .hero, .sec, .fcta, .fbar { padding-left: 24px; padding-right: 24px; }
+  .hdr-nav { display: none; }
+  .hero-in { max-width: 100%; }
+  .hero-h1 { font-size: 38px; } body.he .hero-h1 { font-size: 32px; }
+  .hero-p { font-size: 15px; }
+  .hero-minis { gap: 0; }
+  .hero-mini { padding: 0 16px 0 0; }
+  .hero-mini + .hero-mini { padding-left: 16px; padding-right: 16px; }
+  .mini-n { font-size: 20px; }
+  .mini-l { font-size: 11px; }
+  .steps { grid-template-columns: 1fr; }
+  .uc-grid { grid-template-columns: 1fr 1fr; }
+  .cmp { grid-template-columns: 70px 1fr; }
+  .cmp-row.cmp-d, .cmp-col-head.d { display: none; }
+  .quotes { grid-template-columns: 1fr; }
+  .team { grid-template-columns: 1fr; max-width: 100%; }
+  .sec { padding: 60px 24px; }
+  .fcta { padding: 64px 24px; }
+  .fcta-h { font-size: 28px; }
+  .btn-hdr { display: none; }
+  .sec-h2 { font-size: 28px; }
+}
+@media (max-width: 500px) {
+  .uc-grid { grid-template-columns: 1fr; }
+  .hero-h1 { font-size: 30px; } body.he .hero-h1 { font-size: 28px; }
+  .hero-minis { flex-direction: column; gap: 14px; border-top: 1px solid var(--border); padding-top: 20px; }
+  .hero-mini { padding: 0 !important; border-left: none !important; }
+  .hero-mini + .hero-mini { border-left: none; padding-left: 0; }
+}
+
+/* ── TICKER ── */
+.ticker-wrap {
+  background: var(--navy);
+  overflow: hidden;
+  padding: 14px 0;
+  border-top: 1px solid rgba(201,168,76,.15);
+  border-bottom: 1px solid rgba(201,168,76,.15);
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 28s linear infinite;
+}
+.ticker-track.pain { animation-direction: normal; }
+.ticker-track.fix { animation-direction: reverse; }
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 0 28px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.ticker-track.pain .ticker-item { color: rgba(232,228,220,.45); }
+.ticker-track.fix .ticker-item { color: var(--gold); }
+.ticker-item::after {
+  content: '✶';
+  font-size: 10px;
+  opacity: .5;
+}
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
+
+/* ── PRODUCTS REACH-OUT ── */
+.products-reach-out {
+  font-size: 13px; color: rgba(232,228,220,.4);
+  padding: 20px 24px 0;
+  font-style: italic;
+  letter-spacing: .01em;
+}
+.products-reach-out a {
+  color: var(--gold); text-decoration: none; opacity: .8;
+}
+.products-reach-out a:hover { opacity: 1; }
+
+/* ── SECTION LABEL ── */
+.sec-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: .18em;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+.sec-label .sec-label-num { color: var(--gold); margin-right: 6px; }
+body.he .sec-label .sec-label-num { margin-right: 0; margin-left: 6px; }
+
+/* ── SLEEP INTERSTITIAL ── */
+.sleep-break {
+  background: #0d1624;
+  padding: 90px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.sleep-break::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px; height: 300px;
+  background: radial-gradient(ellipse, rgba(201,168,76,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.sleep-line {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(32px, 5vw, 58px);
+  font-weight: 500;
+  color: rgba(232,228,220,.88);
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  position: relative;
+}
+.sleep-line em {
+  font-style: italic;
+  color: var(--gold);
+}
+body.he .sleep-line { font-family: 'Frank Ruhl Libre', serif; }
+
+/* ── MID CTA ── */
+.mid-cta {
+  background: var(--navy);
+  padding: 56px 48px;
+  text-align: center;
+}
+.mid-cta-p {
+  font-size: 22px; font-weight: 300;
+  color: rgba(232,228,220,.75);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.mid-cta-p em {
+  font-style: normal; color: var(--gold);
+  font-family: 'EB Garamond', serif; font-size: 26px;
+}
+
+/* ── PRODUCTS SHOWCASE ── */
+.products-sec { background: var(--navy); padding: 80px 0 100px; }
+.products-sec .sec-tag { color: var(--gold); opacity: .7; }
+.products-sec .sec-h2 { color: #e8e4dc; }
+.products-sec .sec-sub { color: rgba(232,228,220,.6); }
+
+.products-wrap {
+  display: flex;
+  gap: 60px;
+  margin-top: 56px;
+  align-items: stretch;
+}
+.products-left {
+  flex: 0 0 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.products-right {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+.products-sticky-wrap {
+  position: sticky;
+  top: 100px;
+}
+
+/* Product entry (left column) */
+.product-entry {
+  display: flex;
+  gap: 20px;
+  padding: 28px 24px;
+  border-left: 2px solid rgba(201,168,76,.12);
+  cursor: default;
+  transition: border-color .3s, background .3s;
+  border-radius: 0 8px 8px 0;
+}
+body.he .product-entry {
+  border-left: none;
+  border-right: 2px solid rgba(201,168,76,.12);
+  border-radius: 8px 0 0 8px;
+}
+.product-entry.pe-active {
+  border-color: var(--gold);
+  background: rgba(201,168,76,.06);
+}
+.pe-num {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(201,168,76,.45);
+  letter-spacing: .1em;
+  padding-top: 3px;
+  flex-shrink: 0;
+}
+.product-entry.pe-active .pe-num { color: var(--gold); }
+.pe-content { flex: 1; min-width: 0; }
+.pe-name {
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(232,228,220,.5);
+  margin-bottom: 8px;
+  transition: color .3s;
+}
+.product-entry.pe-active .pe-name { color: #e8e4dc; }
+.pe-desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(232,228,220,.38);
+  transition: color .3s;
+  margin-bottom: 12px;
+}
+.product-entry.pe-active .pe-desc { color: rgba(232,228,220,.7); }
+.pe-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease, opacity .3s;
+  opacity: 0;
+}
+.product-entry.pe-active .pe-bullets {
+  max-height: 200px;
+  opacity: 1;
+}
+.pe-bullets li {
+  font-size: 12.5px;
+  color: rgba(201,168,76,.75);
+  padding-right: 0;
+}
+.pe-bullets li::before {
+  content: '→ ';
+  color: var(--gold);
+  opacity: .6;
+}
+
+/* Product display (right column) */
+.product-display { display: none; }
+.product-display.active { display: block; }
+
+/* Inbox mockup */
+.pd-body {
+  padding: 18px 20px;
+  background: #0a0e14;
+  min-height: 280px;
+}
+.pd-inbox { display: flex; flex-direction: column; gap: 0; }
+.pd-inbox-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  border-radius: 4px;
+}
+.pd-inbox-row:last-child { border-bottom: none; }
+.pd-row-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.pd-row-dot.ok     { background: #50d070; }
+.pd-row-dot.warn   { background: #ffbd2e; }
+.pd-row-dot.muted  { background: #4a5568; }
+.pd-row-dot.draft  { background: var(--gold); }
+.pd-row-info { flex: 1; min-width: 0; }
+.pd-row-subj {
+  font-size: 12px;
+  color: rgba(232,228,220,.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pd-row-meta {
+  font-size: 11px;
+  color: rgba(255,255,255,.35);
+  margin-top: 2px;
+}
+.pd-row-meta strong { color: rgba(255,255,255,.6); }
+.pd-row-badge {
+  font-size: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: .07em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.pd-row-badge.ok   { background: rgba(40,200,65,.15); color: #50d070; }
+.pd-row-badge.warn { background: rgba(255,189,46,.15); color: #ffbd2e; }
+.pd-row-badge.muted { background: rgba(74,85,104,.2); color: #7a8694; }
+.pd-row-badge.draft { background: rgba(201,168,76,.15); color: var(--gold); }
+
+/* Smart Redline (Word-style) mockup */
+.pd-body-word { padding: 20px; }
+.pd-word-doc { display: flex; flex-direction: column; gap: 14px; }
+.pd-word-clause {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 5px;
+  padding: 12px 14px;
+}
+.pd-clause-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: rgba(201,168,76,.6);
+  display: block;
+  margin-bottom: 6px;
+}
+.pd-word-clause p {
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: rgba(232,228,220,.75);
+  direction: ltr;
+  text-align: left;
+}
+del.pd-del {
+  color: #ff7a72;
+  text-decoration: line-through;
+  background: rgba(255,95,87,.12);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+ins.pd-ins {
+  color: #50d070;
+  text-decoration: none;
+  background: rgba(40,200,65,.12);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+.pd-comment-bubble {
+  background: rgba(201,168,76,.08);
+  border: 1px solid rgba(201,168,76,.2);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: -4px 0 -4px 20px;
+}
+body.he .pd-comment-bubble { margin: -4px 20px -4px 0; }
+.pd-comment-from {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.pd-comment-text {
+  font-size: 11.5px;
+  color: rgba(232,228,220,.65);
+  line-height: 1.6;
+  direction: ltr;
+  text-align: left;
+}
+body.he .pd-word-clause p { direction: rtl; text-align: right; }
+body.he .pd-comment-text { direction: rtl; text-align: right; }
+body.he .pd-clause-label { text-align: right; }
+
+/* Deal Timeline mockup */
+.pd-timeline-wrap { display: flex; flex-direction: column; gap: 2px; }
+.pd-tl-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 10px;
+  border-radius: 5px;
+}
+.pd-tl-row:hover { background: rgba(255,255,255,.03); }
+.pd-tl-when {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(201,168,76,.55);
+  letter-spacing: .06em;
+  width: 44px;
+  flex-shrink: 0;
+  text-align: right;
+}
+body.he .pd-tl-when { text-align: left; }
+.pd-tl-dot {
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: .5;
+}
+.pd-tl-task {
+  flex: 1;
+  min-width: 0;
+}
+.pd-tl-task strong {
+  font-size: 12.5px;
+  color: rgba(232,228,220,.85);
+  display: block;
+}
+.pd-tl-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,.35);
+  margin-top: 1px;
+}
+.pd-tl-cal {
+  font-size: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.pd-tl-cal.ok   { background: rgba(40,200,65,.12); color: #50d070; }
+.pd-tl-cal.warn { background: rgba(255,189,46,.12); color: #ffbd2e; }
+
+/* Tender table in product display */
+.pd-body .demo-tbl th {
+  text-align: left;
+  padding: 8px 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  color: rgba(255,255,255,.4);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.pd-body .demo-tbl td {
+  padding: 9px 10px;
+  font-size: 12.5px;
+  color: rgba(232,228,220,.75);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .products-wrap { flex-direction: column; gap: 0; }
+  .products-left { flex: none; width: 100%; order: 2; }
+  .products-right {
+    display: block; flex: none; width: 100%; order: 1;
+    position: sticky; top: 68px; z-index: 5;
+    background: var(--navy); padding-bottom: 8px;
+  }
+  .products-sticky-wrap { position: static; }
+  .pd-body { min-height: 180px; }
+  .product-entry {
+    border-left: none; border-bottom: 1px solid rgba(201,168,76,.12);
+    border-radius: 0; padding: 20px 16px;
+  }
+  body.he .product-entry { border-right: none; }
+  .product-entry.pe-active { background: rgba(201,168,76,.04); }
+  .pe-bullets { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr" id="hdr">
+  <div class="hdr-in">
+    <a href="#" class="logo">
+      <span class="logo-name"><span class="logo-m">M</span>ODUS</span>
+      <span class="logo-tag">Your Firm's AI</span>
+    </a>
+    <nav class="hdr-nav" id="hdr-nav">
+      <a href="#steps-en" id="nav-how">How it works</a>
+      <a href="#team-en" id="nav-team">Team</a>
+    </nav>
+    <div class="hdr-right">
+      <button class="lang-btn" id="lang-btn">עב</button>
+      <a href="https://calendly.com/modusit" target="_blank" class="btn-hdr" id="hdr-cta">Book a Demo</a>
+    </div>
+  </div>
+</header>
+<div class="gold-bar" style="margin-top:68px"></div>
+
+<!-- ══════════ ENGLISH ══════════ -->
+<div id="en">
+
+<section class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="hero-eyebrow fu">AI Automation for Law Firms</div>
+      <h1 class="hero-h1 fu d1">
+        ChatGPT doesn't know how you think.<br>
+        Claude doesn't know how you work.<br>
+        <em>Modus does.</em>
+      </h1>
+      <p class="hero-p fu d2">
+        The repetitive work your team does every day — we teach Modus to do it instead.
+      </p>
+      <div class="hero-btns fu d3">
+        <a href="https://calendly.com/modusit" target="_blank" class="btn-primary">Book a Demo</a>
+        <a href="#products-en" class="btn-ghost">See it in action ↓</a>
+      </div>
+      <div class="hero-minis fu d3">
+        <div class="hero-mini">
+          <span class="mini-n" data-target="90" data-suffix="%">90%</span>
+          <span class="mini-l">less manual work per matter</span>
+        </div>
+        <div class="hero-sep"></div>
+        <div class="hero-mini">
+          <span class="mini-n" data-target="2" data-suffix=" hrs">2 hrs</span>
+          <span class="mini-l">vs. 2 days on due diligence</span>
+        </div>
+        <div class="hero-sep"></div>
+        <div class="hero-mini">
+          <span class="mini-n">Any workflow</span>
+          <span class="mini-l">if your team repeats it, Modus can do it</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="gold-bar"></div>
+
+<div class="ticker-wrap">
+  <div class="ticker-track pain">
+    <span class="ticker-item">email chains</span>
+    <span class="ticker-item">missed deadlines</span>
+    <span class="ticker-item">copy-paste contracts</span>
+    <span class="ticker-item">manual redlines</span>
+    <span class="ticker-item">3am WhatsApp</span>
+    <span class="ticker-item">rereading the same clause</span>
+    <span class="ticker-item">forgotten obligations</span>
+    <span class="ticker-item">inbox overload</span>
+    <span class="ticker-item">email chains</span>
+    <span class="ticker-item">missed deadlines</span>
+    <span class="ticker-item">copy-paste contracts</span>
+    <span class="ticker-item">manual redlines</span>
+    <span class="ticker-item">3am WhatsApp</span>
+    <span class="ticker-item">rereading the same clause</span>
+    <span class="ticker-item">forgotten obligations</span>
+    <span class="ticker-item">inbox overload</span>
+  </div>
+</div>
+<div class="ticker-wrap" style="border-top:none; margin-top:1px;">
+  <div class="ticker-track fix">
+    <span class="ticker-item">automatic triage</span>
+    <span class="ticker-item">live deal timelines</span>
+    <span class="ticker-item">redlined in minutes</span>
+    <span class="ticker-item">one source of truth</span>
+    <span class="ticker-item">your voice, your style</span>
+    <span class="ticker-item">nothing slips through</span>
+    <span class="ticker-item">Modus does the work</span>
+    <span class="ticker-item">you review and approve</span>
+    <span class="ticker-item">automatic triage</span>
+    <span class="ticker-item">live deal timelines</span>
+    <span class="ticker-item">redlined in minutes</span>
+    <span class="ticker-item">one source of truth</span>
+    <span class="ticker-item">your voice, your style</span>
+    <span class="ticker-item">nothing slips through</span>
+    <span class="ticker-item">Modus does the work</span>
+    <span class="ticker-item">you review and approve</span>
+  </div>
+</div>
+
+<section class="sec products-sec fu" id="products-en">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label"><span class="sec-label-num">✶ 01 —</span>See it in action</span>
+      <h2 class="sec-h2 d1">This is what Modus <em style="font-style:italic;color:var(--gold);font-family:'EB Garamond',serif;font-size:1.1em;">actually</em> does</h2>
+      <p class="sec-sub d2" style="margin-top:8px">Real examples of what Modus handles. Any repeating task your team does manually, Modus can learn to do.</p>
+    </div>
+
+    <div class="products-wrap">
+      <!-- Left: product entries -->
+      <div class="products-left">
+        <div class="product-entry pe-active" data-product="email">
+          <div class="pe-num">01</div>
+          <div class="pe-content">
+            <div class="pe-name">Email Triage</div>
+            <div class="pe-desc">Modus learns your inbox rules — which emails go where, which need a draft. Everything lands in the right folder automatically.</div>
+            <ul class="pe-bullets">
+              <li>Auto-sorts incoming mail into client folders</li>
+              <li>Drafts replies in your firm's voice</li>
+              <li>Flags urgent items, archives noise</li>
+            </ul>
+          </div>
+        </div>
+        <div class="product-entry" data-product="redline">
+          <div class="pe-num">02</div>
+          <div class="pe-content">
+            <div class="pe-name">Smart Redline</div>
+            <div class="pe-desc">The other side sends back a marked-up draft. Modus knows how you respond — it redlines the contract in Word with your reasoning in margin comments.</div>
+            <ul class="pe-bullets">
+              <li>Redlines directly in Word (.docx)</li>
+              <li>Margin comments explaining each change</li>
+              <li>Matches your firm's legal reasoning style</li>
+            </ul>
+          </div>
+        </div>
+        <div class="product-entry" data-product="timeline">
+          <div class="pe-num">03</div>
+          <div class="pe-content">
+            <div class="pe-name">Deal Timeline</div>
+            <div class="pe-desc">Once contracts are signed, Modus extracts every obligation and deadline — mortgage, authority filings, insurance — and feeds them straight to your calendar.</div>
+            <ul class="pe-bullets">
+              <li>Extracts milestones from signed contracts</li>
+              <li>Creates calendar events with reminders</li>
+              <li>Nothing slips through after closing</li>
+            </ul>
+          </div>
+        </div>
+        <div class="product-entry" data-product="tender">
+          <div class="pe-num">04</div>
+          <div class="pe-content">
+            <div class="pe-name">Tender Analysis</div>
+            <div class="pe-desc">15 bids, zero spreadsheets. Modus reads every submission and builds a structured comparison table — price, terms, risks — ready to present.</div>
+            <ul class="pe-bullets">
+              <li>Reads all submissions simultaneously</li>
+              <li>Side-by-side comparison across key criteria</li>
+              <li>Risk flags highlighted automatically</li>
+            </ul>
+          </div>
+        </div>
+        <p class="products-reach-out fu">For other use cases — <a href="https://calendly.com/modusit" target="_blank">reach out</a>.</p>
+      </div>
+      <!-- Right: sticky display panel -->
+      <div class="products-right">
+        <div class="products-sticky-wrap">
+          <!-- Email Triage -->
+          <div class="product-display active" id="pd-en-email">
+            <div class="demo-win">
+              <div class="demo-titlebar">
+                <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+                <div class="demo-title-text">Modus · Email Triage</div>
+              </div>
+              <div class="pd-body">
+                <div class="pd-inbox">
+                  <div class="pd-inbox-row"><div class="pd-row-dot ok"></div><div class="pd-row-info"><div class="pd-row-subj">Re: Amendment to Lease Agreement — Building C</div><div class="pd-row-meta">Sorted → <strong>Real Estate / Active Matters</strong></div></div><div class="pd-row-badge ok">✓ Sorted</div></div>
+                  <div class="pd-inbox-row"><div class="pd-row-dot warn"></div><div class="pd-row-info"><div class="pd-row-subj">Urgent: Court date moved — Case 4821</div><div class="pd-row-meta">Sorted → <strong>Litigation / Urgent</strong></div></div><div class="pd-row-badge warn">⚡ Urgent</div></div>
+                  <div class="pd-inbox-row"><div class="pd-row-dot ok"></div><div class="pd-row-info"><div class="pd-row-subj">Invoice #2048 — Due diligence review</div><div class="pd-row-meta">Sorted → <strong>Finance / Invoices</strong></div></div><div class="pd-row-badge ok">✓ Sorted</div></div>
+                  <div class="pd-inbox-row"><div class="pd-row-dot muted"></div><div class="pd-row-info"><div class="pd-row-subj">Newsletter: Legal Tech Weekly</div><div class="pd-row-meta">Archived — no action required</div></div><div class="pd-row-badge muted">Archived</div></div>
+                  <div class="pd-inbox-row"><div class="pd-row-dot draft"></div><div class="pd-row-info"><div class="pd-row-subj">Draft ready: Reply to Cohen &amp; Partners re NDA</div><div class="pd-row-meta">Draft in your voice — review &amp; send</div></div><div class="pd-row-badge draft">Draft</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Smart Redline -->
+          <div class="product-display" id="pd-en-redline">
+            <div class="demo-win">
+              <div class="demo-titlebar">
+                <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+                <div class="demo-title-text">Modus · Smart Redline — Real Estate Agreement</div>
+              </div>
+              <div class="pd-body pd-body-word">
+                <div class="pd-word-doc">
+                  <div class="pd-word-clause">
+                    <span class="pd-clause-label">§4.2 Payment Terms</span>
+                    <p>The Buyer shall pay the balance within <del class="pd-del">60</del><ins class="pd-ins"> 45</ins> days of signing, subject to registration.</p>
+                  </div>
+                  <div class="pd-word-clause">
+                    <span class="pd-clause-label">§7.1 Representations</span>
+                    <p>Seller represents <del class="pd-del">that the property is free of all encumbrances</del><ins class="pd-ins"> and warrants clear title as of the closing date, with no undisclosed liens</ins>.</p>
+                  </div>
+                  <div class="pd-word-clause">
+                    <span class="pd-clause-label">§9.3 Penalty Clause</span>
+                    <p>In the event of default, <ins class="pd-ins">Seller shall pay</ins> 0.1% per day <del class="pd-del">shall apply</del><ins class="pd-ins"> as agreed liquidated damages</ins>.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Deal Timeline -->
+          <div class="product-display" id="pd-en-timeline">
+            <div class="demo-win">
+              <div class="demo-titlebar">
+                <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+                <div class="demo-title-text">Modus · Deal Timeline — Post-Signing Calendar</div>
+              </div>
+              <div class="pd-body">
+                <div class="pd-timeline-wrap">
+                  <div class="pd-tl-row"><div class="pd-tl-when">Day 0</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>Contract Signed</strong><div class="pd-tl-sub">Trigger point — timeline starts</div></div><div class="pd-tl-cal ok">✓ Added</div></div>
+                  <div class="pd-tl-row"><div class="pd-tl-when">Day 30</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>Mortgage Application</strong><div class="pd-tl-sub">File with bank per §5.1</div></div><div class="pd-tl-cal ok">✓ Added</div></div>
+                  <div class="pd-tl-row"><div class="pd-tl-when">Day 45</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>Balance Payment Due</strong><div class="pd-tl-sub">Transfer to escrow account</div></div><div class="pd-tl-cal warn">⚡ Reminder</div></div>
+                  <div class="pd-tl-row"><div class="pd-tl-when">Day 60</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>Land Registry Filing</strong><div class="pd-tl-sub">Submit transfer docs to Tabu</div></div><div class="pd-tl-cal ok">✓ Added</div></div>
+                  <div class="pd-tl-row"><div class="pd-tl-when">Day 90</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>Insurance Activation</strong><div class="pd-tl-sub">Structure + contents policy required</div></div><div class="pd-tl-cal ok">✓ Added</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tender Analysis -->
+          <div class="product-display" id="pd-en-tender">
+            <div class="demo-win">
+              <div class="demo-titlebar">
+                <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+                <div class="demo-title-text">Modus · Tender Analysis — 15 Bids</div>
+              </div>
+              <div class="pd-body">
+                <table class="demo-tbl">
+                  <thead><tr><th>Bidder</th><th>Price (₪M)</th><th>Timeline</th><th>Warranty</th><th>Risk</th></tr></thead>
+                  <tbody>
+                    <tr><td>GlobalBuild</td><td>12.4</td><td>18 mo</td><td>3 yr</td><td><span class="demo-flag ok">LOW</span></td></tr>
+                    <tr><td>Shapir Group</td><td>11.8</td><td>20 mo</td><td>2 yr</td><td><span class="demo-flag warn">MED</span></td></tr>
+                    <tr><td>Electra Build</td><td>13.1</td><td>16 mo</td><td>5 yr</td><td><span class="demo-flag ok">LOW</span></td></tr>
+                    <tr><td>Danya Cebus</td><td>10.9</td><td>24 mo</td><td>2 yr</td><td><span class="demo-flag bad">HIGH</span></td></tr>
+                    <tr><td style="color:rgba(255,255,255,.4)">+ 11 more</td><td colspan="4" style="color:#50d070;font-size:11px">✓ All analyzed</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /products-wrap -->
+    <div id="demo-scene-en-0" style="display:none">
+      <div class="demo-titlebar">
+        <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+        <div class="demo-title-text" id="demo-title-en-0">Modus · Tender Analysis</div>
+      </div>
+      <div class="demo-stage">
+        <div class="demo-intro" id="en-0-intro">
+          <div class="demo-intro-head">15 BIDS.</div>
+          <div class="demo-intro-sub">Zero spreadsheets.</div>
+        </div>
+        <!-- Slide 0: received -->
+        <div class="demo-slide active" id="en-0-s0">
+          <div class="demo-recv-eyebrow">Tender submissions received</div>
+          <div class="demo-recv-count">
+            <div class="demo-recv-num" id="en-recvnum-0">15</div>
+            <div class="demo-recv-label">bids ready<br>for analysis</div>
+          </div>
+          <div class="demo-recv-files">
+            <div class="demo-dc" id="en-dc-0-0"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">GlobalBuild_Tender_v2.pdf</div><div class="demo-dc-size">2.4 MB</div></div></div>
+            <div class="demo-dc" id="en-dc-0-1"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">Shapir_Submission_Final.pdf</div><div class="demo-dc-size">1.8 MB</div></div></div>
+            <div class="demo-dc" id="en-dc-0-2"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">Electra_Bid_R3.pdf</div><div class="demo-dc-size">3.1 MB</div></div></div>
+            <div class="demo-dc" id="en-dc-0-3"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">Danya_Cebus_Offer.pdf</div><div class="demo-dc-size">2.0 MB</div></div></div>
+            <div class="demo-dc" id="en-dc-0-4"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">+ 11 more submissions</div><div class="demo-dc-size">18.7 MB total</div></div></div>
+          </div>
+        </div>
+        <!-- Slide 1: analyzing -->
+        <div class="demo-slide demo-slide-analyze" id="en-0-s1">
+          <div class="demo-analyze-ring"><div class="demo-analyze-glow"></div></div>
+          <div class="demo-analyze-title">Analyzing submissions...</div>
+          <div class="demo-analyze-sub">Reading all 15 documents in parallel</div>
+          <div class="demo-analyze-steps">
+            <div class="demo-analyze-step" id="en-as-0-0">Reading document contents</div>
+            <div class="demo-analyze-step" id="en-as-0-1">Extracting bid terms &amp; prices</div>
+            <div class="demo-analyze-step" id="en-as-0-2">Checking compliance criteria</div>
+          </div>
+        </div>
+        <!-- Slide 2: table -->
+        <div class="demo-slide" id="en-0-s2">
+          <div class="demo-output-header">
+            <div class="demo-output-check">✓</div>
+            <div class="demo-output-headtxt">Analysis complete <span>· 15 vendors compared</span></div>
+          </div>
+          <table class="demo-tbl">
+            <thead><tr><th>Vendor</th><th>Bid ₪M</th><th>Timeline</th><th>Compliant</th><th>Flag</th></tr></thead>
+            <tbody>
+              <tr class="demo-tbl-row" id="en-tr-0-0"><td>GlobalBuild</td><td>42.3</td><td>18 mo</td><td><span class="demo-flag ok">YES</span></td><td>—</td></tr>
+              <tr class="demo-tbl-row" id="en-tr-0-1"><td>Shapir</td><td>38.7</td><td>22 mo</td><td><span class="demo-flag ok">YES</span></td><td><span class="demo-winner-flag" id="en-winner-0">★</span></td></tr>
+              <tr class="demo-tbl-row" id="en-tr-0-2"><td>Electra</td><td>45.1</td><td>16 mo</td><td><span class="demo-flag warn">PARTIAL</span></td><td>Insurance</td></tr>
+              <tr class="demo-tbl-row" id="en-tr-0-3"><td>Danya Cebus</td><td>41.0</td><td>20 mo</td><td><span class="demo-flag ok">YES</span></td><td>—</td></tr>
+              <tr class="demo-tbl-row" id="en-tr-0-4"><td>Tidhar</td><td>36.2</td><td>24 mo</td><td><span class="demo-flag bad">NO</span></td><td>3 clauses</td></tr>
+              <tr class="demo-tbl-row" id="en-tr-0-5"><td style="color:#6a8a9e">+ 10 more</td><td colspan="4" style="color:#3a5060">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="demo-progress">
+        <div class="demo-prog-dot active" id="en-pd-0-0"></div>
+        <div class="demo-prog-dot" id="en-pd-0-1"></div>
+        <div class="demo-prog-dot" id="en-pd-0-2"></div>
+      </div>
+    </div>
+
+    <!-- ── SCENE 1: Due Diligence ── -->
+    <div class="demo-win" id="demo-scene-en-1" style="display:none">
+      <div class="demo-titlebar">
+        <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+        <div class="demo-title-text" id="demo-title-en-1">Modus · Due Diligence</div>
+      </div>
+      <div class="demo-stage">
+        <div class="demo-intro" id="en-1-intro">
+          <div class="demo-intro-head">247 PAGES.</div>
+          <div class="demo-intro-sub">Read in seconds.</div>
+        </div>
+        <!-- Slide 0: document received -->
+        <div class="demo-slide active" id="en-1-s0">
+          <div class="demo-recv-eyebrow">Document received</div>
+          <div class="demo-recv-count">
+            <div class="demo-recv-num" id="en-recvnum-1">247</div>
+            <div class="demo-recv-label">pages<br>to review</div>
+          </div>
+          <div class="demo-pdf" id="en-pdf-1-0">
+            <div class="demo-pdf-icon"></div>
+            <div>
+              <div class="demo-pdf-name">SHA_Merger_Agreement_v3.pdf</div>
+              <div class="demo-pdf-meta">8.6 MB · Uploaded 09:14 · M&amp;A agreement</div>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 1: analyzing -->
+        <div class="demo-slide demo-slide-analyze" id="en-1-s1">
+          <div class="demo-analyze-ring"><div class="demo-analyze-glow"></div></div>
+          <div class="demo-analyze-title">Reading agreement...</div>
+          <div class="demo-analyze-sub">Scanning 247 pages for risk clauses</div>
+          <div class="demo-analyze-steps">
+            <div class="demo-analyze-step" id="en-as-1-0">Parsing clause structure</div>
+            <div class="demo-analyze-step" id="en-as-1-1">Identifying risk factors</div>
+            <div class="demo-analyze-step" id="en-as-1-2">Comparing to market standards</div>
+          </div>
+        </div>
+        <!-- Slide 2: flagged issues -->
+        <div class="demo-slide" id="en-1-s2">
+          <div class="demo-output-header">
+            <div class="demo-output-check warn">!</div>
+            <div class="demo-output-headtxt">Review complete <span>· 4 clauses flagged</span></div>
+          </div>
+          <div class="demo-iss high" id="en-iss-1-0">
+            <div class="demo-iss-head"><span class="demo-iss-badge">HIGH</span><span class="demo-iss-title">Indemnification cap — below market</span></div>
+            <div class="demo-iss-body">§12.3(b): Cap at 15% of deal value. Standard range is 25–40%.</div>
+          </div>
+          <div class="demo-iss high" id="en-iss-1-1">
+            <div class="demo-iss-head"><span class="demo-iss-badge">HIGH</span><span class="demo-iss-title">Non-compete scope — overbroad</span></div>
+            <div class="demo-iss-body">§18.1: 5-year worldwide restriction on founders. Likely unenforceable under IL law.</div>
+          </div>
+          <div class="demo-iss med" id="en-iss-1-2">
+            <div class="demo-iss-head"><span class="demo-iss-badge">MEDIUM</span><span class="demo-iss-title">Earn-out trigger — ambiguous metric</span></div>
+            <div class="demo-iss-body">§7.4: "ARR" defined inconsistently across §2.1 and §7.4. Clarify before milestone period.</div>
+          </div>
+          <div class="demo-iss low" id="en-iss-1-3">
+            <div class="demo-iss-head"><span class="demo-iss-badge">OK</span><span class="demo-iss-title">Governing law — consistent</span></div>
+            <div class="demo-iss-body">§22: Israeli law throughout. No conflicts detected.</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-progress">
+        <div class="demo-prog-dot active" id="en-pd-1-0"></div>
+        <div class="demo-prog-dot" id="en-pd-1-1"></div>
+        <div class="demo-prog-dot" id="en-pd-1-2"></div>
+      </div>
+    </div>
+
+    <!-- ── SCENE 2: Contract → Conflicts ── -->
+    <div class="demo-win" id="demo-scene-en-2" style="display:none">
+      <div class="demo-titlebar">
+        <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+        <div class="demo-title-text" id="demo-title-en-2">Modus · Contract Review</div>
+      </div>
+      <div class="demo-stage">
+        <div class="demo-intro" id="en-2-intro">
+          <div class="demo-intro-head">8PM. DEAL CLOSING TOMORROW.</div>
+          <div class="demo-intro-sub">Their position had holes.</div>
+        </div>
+        <!-- Slide 0: counter-proposal received -->
+        <div class="demo-slide active" id="en-2-s0">
+          <div class="demo-recv-eyebrow">Counter-proposal received · 20:14</div>
+          <div class="demo-recv-count">
+            <div class="demo-recv-num" id="en-recvnum-2">47</div>
+            <div class="demo-recv-label">pages of<br>proposed changes</div>
+          </div>
+          <div class="demo-pdf" id="en-pdf-2-0">
+            <div class="demo-pdf-icon"></div>
+            <div>
+              <div class="demo-pdf-name">Purchase_Agreement_Buyer_Redline.pdf</div>
+              <div class="demo-pdf-meta">3.2 MB · Received 20:14 · Urgent — deal closes tomorrow</div>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 1: cross-referencing -->
+        <div class="demo-slide demo-slide-analyze" id="en-2-s1">
+          <div class="demo-analyze-ring"><div class="demo-analyze-glow"></div></div>
+          <div class="demo-analyze-title">Cross-referencing provisions...</div>
+          <div class="demo-analyze-sub">Mapping 47 proposed changes against existing terms</div>
+          <div class="demo-analyze-steps">
+            <div class="demo-analyze-step" id="en-as-2-0">Mapping proposed changes to existing terms</div>
+            <div class="demo-analyze-step" id="en-as-2-1">Checking internal consistency</div>
+            <div class="demo-analyze-step" id="en-as-2-2">Flagging contradictions &amp; exposure</div>
+          </div>
+        </div>
+        <!-- Slide 2: conflicts found -->
+        <div class="demo-slide" id="en-2-s2">
+          <div class="demo-output-header">
+            <div class="demo-output-check warn">!</div>
+            <div class="demo-output-headtxt">3 conflicts found <span>· buyer's position has holes</span></div>
+          </div>
+          <div class="demo-iss high" id="en-iss-2-0">
+            <div class="demo-iss-head"><span class="demo-iss-badge">CRITICAL</span><span class="demo-iss-title">§14(c) carve-out contradicts buyer's own §3.2</span></div>
+            <div class="demo-iss-body">Proposed indemnity exclusion directly contradicts representations buyer confirmed in disclosure schedules.</div>
+          </div>
+          <div class="demo-iss high" id="en-iss-2-1">
+            <div class="demo-iss-head"><span class="demo-iss-badge">CRITICAL</span><span class="demo-iss-title">Indemnity expansion conflicts with §9.1 fundamental reps</span></div>
+            <div class="demo-iss-body">Expanded carve-out would weaken buyer's own post-closing protections — against their interest.</div>
+          </div>
+          <div class="demo-iss med" id="en-iss-2-2">
+            <div class="demo-iss-head"><span class="demo-iss-badge">MEDIUM</span><span class="demo-iss-title">Revised closing deliverables — ambiguity in §6.4</span></div>
+            <div class="demo-iss-body">New delivery schedule creates internal conflict with §6.4 conditions precedent. Needs clarification.</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-progress">
+        <div class="demo-prog-dot active" id="en-pd-2-0"></div>
+        <div class="demo-prog-dot" id="en-pd-2-1"></div>
+        <div class="demo-prog-dot" id="en-pd-2-2"></div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<div class="mid-cta">
+  <p class="mid-cta-p fu">Sound like your firm? <em>Let's fix it.</em></p>
+  <a href="https://calendly.com/modusit" target="_blank" class="btn-primary fu">Book a free 30-minute call →</a>
+</div>
+
+<section class="sec sec-warm" id="steps-en">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label fu"><span class="sec-label-num">✶ 02 —</span>How it works</span>
+      <h2 class="sec-h2 fu d1">You teach it once. <em style="font-style:italic;color:var(--gold);font-family:'EB Garamond',serif;font-size:1.1em;">It works</em> from then on.</h2>
+    </div>
+    <div class="steps">
+      <div class="step fu d1">
+        <div class="step-n">01</div>
+        <div class="step-t">We learn how you work</div>
+        <div class="step-d">We sit inside your actual workflow — what comes in, what your team does to it, how you write, what good looks like. Not a questionnaire. Your real matters.</div>
+      </div>
+      <div class="step fu d2">
+        <div class="step-n">02</div>
+        <div class="step-t">We wire it to your triggers</div>
+        <div class="step-d">An email lands. A contract gets signed. A deadline approaches. Modus starts working the moment it happens — nobody has to remember to click go.</div>
+      </div>
+      <div class="step fu d3">
+        <div class="step-n">03</div>
+        <div class="step-t">You review and approve</div>
+        <div class="step-d">The work arrives done, in your voice. You check it, sign off, send. Nothing leaves the firm without your approval.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="sec sec-navy">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label fu" style="color:rgba(201,168,76,.6)"><span class="sec-label-num">✶ 03 —</span>Why Modus</span>
+      <h2 class="sec-h2 light fu d1">Not all AI is created <em style="font-style:italic;color:var(--gold);font-family:'EB Garamond',serif;font-size:1.1em;">equal</em></h2>
+      <p class="sec-sub light fu d2">Generic tools make you do the work. Modus does it for you.</p>
+    </div>
+    <div class="cmp fu">
+      <div class="cmp-col-head lbl"></div>
+      <div class="cmp-col-head d">ChatGPT &amp; generic AI tools</div>
+      <div class="cmp-col-head g">Modus</div>
+      <div class="cmp-label">Work</div>
+      <div class="cmp-row cmp-d"><div class="dot6 d"></div>You upload, prompt, edit — and still do most of the work</div>
+      <div class="cmp-row cmp-g"><div class="dot6 g"></div><span><strong>Does the work.</strong> You review and approve</span></div>
+      <div class="cmp-label">Voice</div>
+      <div class="cmp-row cmp-d"><div class="dot6 d"></div>Generic output that sounds like no one</div>
+      <div class="cmp-row cmp-g"><div class="dot6 g"></div><span>Output that sounds like <strong>you wrote it</strong></span></div>
+      <div class="cmp-label">Memory</div>
+      <div class="cmp-row cmp-d"><div class="dot6 d"></div>No memory of how your firm works</div>
+      <div class="cmp-row cmp-g"><div class="dot6 g"></div><span>Gets <strong>smarter with every matter</strong> it handles</span></div>
+      <div class="cmp-label">Triggers</div>
+      <div class="cmp-row cmp-d"><div class="dot6 d"></div>Waits for you to prompt it, every single time</div>
+      <div class="cmp-row cmp-g"><div class="dot6 g"></div><span>Starts on its own <strong>the moment work arrives</strong></span></div>
+    </div>
+  </div>
+</section>
+
+<div class="sleep-break">
+  <p class="sleep-line fu">We automate so things work <em>while you sleep.</em></p>
+</div>
+
+<section class="sec sec-navylight">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label fu"><span class="sec-label-num">✶ 04 —</span>What clients say</span>
+      <h2 class="sec-h2 fu d1">Law firms that made the <em style="font-style:italic;color:var(--gold);font-family:'EB Garamond',serif;font-size:1.1em;">shift</em></h2>
+    </div>
+    <div class="quotes">
+      <div class="qcard fu d1">
+        <div class="qavatar">AK</div>
+        <div class="qmark">"</div>
+        <div class="qtext">We used to spend entire days on due diligence reviews. Modus cut that to a few hours — and the output sounds like it came from one of our senior associates.</div>
+        <div class="qattr">Partner, Corporate Law <span>8-partner firm · Tel Aviv</span></div>
+      </div>
+      <div class="qcard fu d2">
+        <div class="qavatar">RB</div>
+        <div class="qmark">"</div>
+        <div class="qtext">What convinced me wasn't the speed — it was that it actually writes the way we write. After two weeks, I couldn't tell which letters were drafted by Modus and which by my team.</div>
+        <div class="qattr">Managing Partner, Litigation <span>12-partner firm · Jerusalem</span></div>
+      </div>
+      <div class="qcard fu d3">
+        <div class="qavatar">SL</div>
+        <div class="qmark">"</div>
+        <div class="qtext">We've tried other AI tools and always ended up doing the work twice. Modus was different — it understood our practice from day one.</div>
+        <div class="qattr">Senior Partner, Real Estate Law <span>6-partner firm · Tel Aviv</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-white" id="team-en">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label fu"><span class="sec-label-num">✶ 05 —</span>The Studio</span>
+      <h2 class="sec-h2 fu d1">No middlemen. The people who scope it are the people who <em style="font-style:italic;color:var(--gold);font-family:'EB Garamond',serif;font-size:1.1em;">ship</em> it.</h2>
+    </div>
+    <div class="team">
+      <div class="tcard fu d1">
+        <div class="tinit">U</div>
+        <div>
+          <div class="tname">Uri Keinan</div>
+          <div class="tbio">15+ years scaling enterprise tech. Knows how law firms actually operate — and what they won't tolerate.</div>
+        </div>
+      </div>
+      <div class="tcard fu d2">
+        <div class="tinit">Y</div>
+        <div>
+          <div class="tname">Yoni Mindel</div>
+          <div class="tbio">Early-stage investor turned AI builder. Keeps the system aligned with your reality, not the demo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fcta">
+  <p class="fcta-trust fu">Firms already saving 10+ hours a week on document work</p>
+  <h2 class="fcta-h fu d1">Ready to see Modus in action?</h2>
+  <p class="fcta-p fu d2">30 minutes. No slides. Just your workflows.</p>
+  <a href="https://calendly.com/modusit" target="_blank" class="btn-primary fu d2">Book a Demo</a>
+  <a href="#products-en" class="fcta-secondary fu d3">See how it works first ↑</a>
+</div>
+
+</div><!-- /en -->
+
+<!-- ══════════ HEBREW ══════════ -->
+<div id="he" style="display:none" dir="rtl">
+
+<section class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="hero-eyebrow fu">אוטומציה חכמה למשרדי עורכי דין</div>
+      <h1 class="hero-h1 fu d1">
+        ChatGPT לא יודע איך אתה חושב.<br>
+        Claude לא יודע איך אתה עובד.<br>
+        <em>מודוס כן.</em>
+      </h1>
+      <p class="hero-p fu d2">
+        העבודה החוזרת שהצוות שלך עושה כל יום — אנחנו מלמדים את מודוס לעשות אותה במקומו.
+      </p>
+      <div class="hero-btns fu d3">
+        <a href="https://calendly.com/modusit" target="_blank" class="btn-primary">קבע פגישה</a>
+        <a href="#products-he" class="btn-ghost">ראה את זה בפעולה ↓</a>
+      </div>
+      <div class="hero-minis fu d3">
+        <div class="hero-mini">
+          <span class="mini-n">כל תהליך</span>
+          <span class="mini-l">מודוס לומד ועושה אותו</span>
+        </div>
+        <div class="hero-sep"></div>
+        <div class="hero-mini">
+          <span class="mini-n" data-target="2" data-suffix=" שעות">2 שעות</span>
+          <span class="mini-l">במקום יומיים על בדיקת נאותות</span>
+        </div>
+        <div class="hero-sep"></div>
+        <div class="hero-mini">
+          <span class="mini-n" data-target="90" data-suffix="%">90%</span>
+          <span class="mini-l">פחות עבודה ידנית לכל תיק</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="gold-bar"></div>
+
+<div class="ticker-wrap">
+  <div class="ticker-track pain">
+    <span class="ticker-item">שרשרות מיילים</span>
+    <span class="ticker-item">דדליינים שנפלו</span>
+    <span class="ticker-item">העתק-הדבק חוזרים</span>
+    <span class="ticker-item">רדליינים ידניים</span>
+    <span class="ticker-item">וואטסאפ בשלוש בלילה</span>
+    <span class="ticker-item">לקרוא את אותו סעיף שוב</span>
+    <span class="ticker-item">התחייבויות שנשכחו</span>
+    <span class="ticker-item">עומס בתיבת הדואר</span>
+    <span class="ticker-item">שרשרות מיילים</span>
+    <span class="ticker-item">דדליינים שנפלו</span>
+    <span class="ticker-item">העתק-הדבק חוזרים</span>
+    <span class="ticker-item">רדליינים ידניים</span>
+    <span class="ticker-item">וואטסאפ בשלוש בלילה</span>
+    <span class="ticker-item">לקרוא את אותו סעיף שוב</span>
+    <span class="ticker-item">התחייבויות שנשכחו</span>
+    <span class="ticker-item">עומס בתיבת הדואר</span>
+  </div>
+</div>
+<div class="ticker-wrap" style="border-top:none; margin-top:1px;">
+  <div class="ticker-track fix">
+    <span class="ticker-item">מיון אוטומטי</span>
+    <span class="ticker-item">לוחות זמנים חיים</span>
+    <span class="ticker-item">רדליין תוך דקות</span>
+    <span class="ticker-item">מקור אמת אחד</span>
+    <span class="ticker-item">הסגנון שלך, הקול שלך</span>
+    <span class="ticker-item">כלום לא נופל בין הכסאות</span>
+    <span class="ticker-item">מודוס עושה את העבודה</span>
+    <span class="ticker-item">אתה בודק ומאשר</span>
+    <span class="ticker-item">מיון אוטומטי</span>
+    <span class="ticker-item">לוחות זמנים חיים</span>
+    <span class="ticker-item">רדליין תוך דקות</span>
+    <span class="ticker-item">מקור אמת אחד</span>
+    <span class="ticker-item">הסגנון שלך, הקול שלך</span>
+    <span class="ticker-item">כלום לא נופל בין הכסאות</span>
+    <span class="ticker-item">מודוס עושה את העבודה</span>
+    <span class="ticker-item">אתה בודק ומאשר</span>
+  </div>
+</div>
+
+<section class="sec products-sec fu" id="products-he">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label"><span class="sec-label-num">✶ 01 —</span>ראה את זה בפעולה</span>
+      <h2 class="sec-h2 d1">זה מה שמודוס <em style="font-style:italic;color:var(--gold);font-family:'Frank Ruhl Libre',serif;font-size:1.1em;">באמת</em> עושה</h2>
+      <p class="sec-sub d2" style="margin-top:8px">דוגמאות אמיתיות למה שמודוס מטפל בו. כל משימה חוזרת שהצוות שלך עושה ידנית, מודוס יכול ללמוד לעשות.</p>
+    </div>
+
+    <div class="products-wrap">
+      <!-- Left: product entries (HE) -->
+      <div class="products-left">
+        <div class="product-entry pe-active" data-product="email-he">
+          <div class="pe-num">01</div>
+          <div class="pe-content">
+            <div class="pe-name">מיון אימיילים</div>
+            <div class="pe-desc">מודוס לומד את כללי תיבת הדואר שלך — איזה מייל הולך לאן, מה צריך טיפול, מה צריך טיוטה. הכל נוחת במקום הנכון אוטומטית.</div>
+            <ul class="pe-bullets">
+              <li>מיון אוטומטי לתיקיות לקוחות</li>
+              <li>טיוטות תשובה בסגנון המשרד שלך</li>
+              <li>דגל לפריטים דחופים, ארכיון לרעש</li>
+            </ul>
+          </div>
+        </div>
+        <div class="product-entry" data-product="redline-he">
+          <div class="pe-num">02</div>
+          <div class="pe-content">
+            <div class="pe-name">רדליין חכם</div>
+            <div class="pe-desc">הצד השני מחזיר טיוטה עם הערות. מודוס יודע איך אתה מגיב — הוא עורך את החוזה בוורד עם נימוקים בתגובות השוליים.</div>
+            <ul class="pe-bullets">
+              <li>עורך ישירות בקובץ Word</li>
+              <li>תגובות שוליים עם הסבר לכל שינוי</li>
+              <li>מתאים לסגנון המשפטי של המשרד שלך</li>
+            </ul>
+          </div>
+        </div>
+        <div class="product-entry" data-product="timeline-he">
+          <div class="pe-num">03</div>
+          <div class="pe-content">
+            <div class="pe-name">לוח זמנים לעסקה</div>
+            <div class="pe-desc">ברגע שחוזים נחתמים, מודוס מחלץ כל מחויבות ומועד — משכנתא, רישום בטאבו, ביטוחים — ומזין אותם ישירות ליומן שלך.</div>
+            <ul class="pe-bullets">
+              <li>חילוץ אבני דרך מחוזים חתומים</li>
+              <li>יצירת אירועי יומן עם תזכורות</li>
+              <li>לא מחמיצים שום דבר אחרי סגירה</li>
+            </ul>
+          </div>
+        </div>
+        <div class="product-entry" data-product="tender-he">
+          <div class="pe-num">04</div>
+          <div class="pe-content">
+            <div class="pe-name">ניתוח מכרזים</div>
+            <div class="pe-desc">15 הצעות, אפס גיליונות אקסל. מודוס קורא כל הגשה ובונה טבלת השוואה מסודרת — מחיר, תנאים, סיכונים — מוכנה להצגה.</div>
+            <ul class="pe-bullets">
+              <li>קריאת כל ההגשות בו-זמנית</li>
+              <li>השוואה ליד ליד לפי קריטריונים</li>
+              <li>סימון אוטומטי של סיכונים</li>
+            </ul>
+          </div>
+        </div>
+        <p class="products-reach-out fu">לתהליכים נוספים — <a href="https://calendly.com/modusit" target="_blank">צרו קשר</a>.</p>
+      </div>
+      <!-- Right: sticky display panel (HE) -->
+      <div class="products-right">
+        <div class="products-sticky-wrap">
+          <!-- Email Triage HE -->
+          <div class="product-display active" id="pd-he-email">
+            <div class="demo-win">
+              <div class="demo-titlebar">
+                <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+                <div class="demo-title-text">Modus · מיון אימיילים</div>
+              </div>
+              <div class="pd-body">
+                <div class="pd-inbox">
+                  <div class="pd-inbox-row"><div class="pd-row-dot ok"></div><div class="pd-row-info"><div class="pd-row-subj">תשובה: תיקון להסכם שכירות — בניין ג'</div><div class="pd-row-meta">מוין → <strong>נדל"ן / תיקים פעילים</strong></div></div><div class="pd-row-badge ok">✓ מוין</div></div>
+                  <div class="pd-inbox-row"><div class="pd-row-dot warn"></div><div class="pd-row-info"><div class="pd-row-subj">דחוף: מועד דיון הוזז — תיק 4821</div><div class="pd-row-meta">מוין → <strong>ליטיגציה / דחוף</strong></div></div><div class="pd-row-badge warn">⚡ דחוף</div></div>
+                  <div class="pd-inbox-row"><div class="pd-row-dot ok"></div><div class="pd-row-info"><div class="pd-row-subj">חשבונית #2048 — בדיקת נאותות</div><div class="pd-row-meta">מוין → <strong>כספים / חשבוניות</strong></div></div><div class="pd-row-badge ok">✓ מוין</div></div>
+                  <div class="pd-inbox-row"><div class="pd-row-dot muted"></div><div class="pd-row-info"><div class="pd-row-subj">ניוזלטר: Legal Tech Weekly</div><div class="pd-row-meta">בארכיון — לא דורש טיפול</div></div><div class="pd-row-badge muted">ארכיון</div></div>
+                  <div class="pd-inbox-row"><div class="pd-row-dot draft"></div><div class="pd-row-info"><div class="pd-row-subj">טיוטה מוכנה: תשובה ל-Cohen &amp; Partners</div><div class="pd-row-meta">טיוטה בסגנונך — בדוק ושלח</div></div><div class="pd-row-badge draft">טיוטה</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Smart Redline HE -->
+          <div class="product-display" id="pd-he-redline">
+            <div class="demo-win">
+              <div class="demo-titlebar">
+                <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+                <div class="demo-title-text">Modus · רדליין חכם — הסכם נדל"ן</div>
+              </div>
+              <div class="pd-body pd-body-word">
+                <div class="pd-word-doc">
+                  <div class="pd-word-clause">
+                    <span class="pd-clause-label">§4.2 תנאי תשלום</span>
+                    <p>הקונה ישלם את היתרה תוך <del class="pd-del">60</del><ins class="pd-ins"> 45</ins> ימים מהחתימה, בכפוף לרישום.</p>
+                  </div>
+                  <div class="pd-comment-bubble">
+                    <div class="pd-comment-from">מ.כ. · Modus</div>
+                    <div class="pd-comment-text">קוצר הלוח לפי עמדתנו הסטנדרטית. חלון 60 יום חשף את הלקוח לעיכובי רישום. 45 יום עולה בקנה אחד עם זמני עיבוד של רשם המקרקעין.</div>
+                  </div>
+                  <div class="pd-word-clause">
+                    <span class="pd-clause-label">§7.1 הצהרות</span>
+                    <p>המוכר מצהיר <del class="pd-del">כי הנכס נקי מכל שעבוד</del><ins class="pd-ins"> ומבטיח בעלות נקייה נכון למועד הסגירה, ללא שעבודים לא גלויים</ins>.</p>
+                  </div>
+                  <div class="pd-word-clause">
+                    <span class="pd-clause-label">§9.3 פיצוי מוסכם</span>
+                    <p>במקרה של הפרה, <ins class="pd-ins">המוכר ישלם</ins> 0.1% ליום <del class="pd-del">יחול</del><ins class="pd-ins"> כפיצוי מוסכם</ins>.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Deal Timeline HE -->
+          <div class="product-display" id="pd-he-timeline">
+            <div class="demo-win">
+              <div class="demo-titlebar">
+                <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+                <div class="demo-title-text">Modus · לוח זמנים לעסקה</div>
+              </div>
+              <div class="pd-body">
+                <div class="pd-timeline-wrap">
+                  <div class="pd-tl-row"><div class="pd-tl-when">יום 0</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>חתימה על החוזה</strong><div class="pd-tl-sub">נקודת ההתחלה — הלוח מתחיל</div></div><div class="pd-tl-cal ok">✓ ביומן</div></div>
+                  <div class="pd-tl-row"><div class="pd-tl-when">יום 30</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>הגשת בקשה למשכנתא</strong><div class="pd-tl-sub">הגשה לבנק לפי §5.1</div></div><div class="pd-tl-cal ok">✓ ביומן</div></div>
+                  <div class="pd-tl-row"><div class="pd-tl-when">יום 45</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>מועד תשלום יתרה</strong><div class="pd-tl-sub">העברה לחשבון נאמנות</div></div><div class="pd-tl-cal warn">⚡ תזכורת</div></div>
+                  <div class="pd-tl-row"><div class="pd-tl-when">יום 60</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>רישום בטאבו</strong><div class="pd-tl-sub">הגשת מסמכי העברה לרשם</div></div><div class="pd-tl-cal ok">✓ ביומן</div></div>
+                  <div class="pd-tl-row"><div class="pd-tl-when">יום 90</div><div class="pd-tl-dot"></div><div class="pd-tl-task"><strong>הפעלת ביטוח</strong><div class="pd-tl-sub">נדרשים ביטוח מבנה ותכולה</div></div><div class="pd-tl-cal ok">✓ ביומן</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tender Analysis HE -->
+          <div class="product-display" id="pd-he-tender">
+            <div class="demo-win">
+              <div class="demo-titlebar">
+                <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+                <div class="demo-title-text">Modus · ניתוח מכרזים — 15 הצעות</div>
+              </div>
+              <div class="pd-body">
+                <table class="demo-tbl">
+                  <thead><tr><th>מציע</th><th>מחיר (₪M)</th><th>לוח זמנים</th><th>אחריות</th><th>סיכון</th></tr></thead>
+                  <tbody>
+                    <tr><td>GlobalBuild</td><td>12.4</td><td>18 חו'</td><td>3 שנ'</td><td><span class="demo-flag ok">נמוך</span></td></tr>
+                    <tr><td>שפיר</td><td>11.8</td><td>20 חו'</td><td>2 שנ'</td><td><span class="demo-flag warn">בינוני</span></td></tr>
+                    <tr><td>אלקטרה</td><td>13.1</td><td>16 חו'</td><td>5 שנ'</td><td><span class="demo-flag ok">נמוך</span></td></tr>
+                    <tr><td>דניה סיבוס</td><td>10.9</td><td>24 חו'</td><td>2 שנ'</td><td><span class="demo-flag bad">גבוה</span></td></tr>
+                    <tr><td style="color:rgba(255,255,255,.4)">+ 11 נוספות</td><td colspan="4" style="color:#50d070;font-size:11px">✓ כולן נותחו</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /products-wrap -->
+    <div id="demo-scene-he-stub" style="display:none"><!-- old scenes stub --></div>
+
+    <!-- old HE scenes (hidden) -->
+    <div style="display:none" id="demo-scene-he-0">
+      <div class="demo-titlebar">
+        <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+        <div class="demo-title-text" id="demo-title-he-0">Modus · ניתוח מכרזים</div>
+      </div>
+      <div class="demo-stage">
+        <div class="demo-intro" id="he-0-intro">
+          <div class="demo-intro-head">15 הצעות.</div>
+          <div class="demo-intro-sub">ללא גיליונות אקסל.</div>
+        </div>
+        <div class="demo-slide active" id="he-0-s0">
+          <div class="demo-recv-eyebrow">הצעות מכרז התקבלו</div>
+          <div class="demo-recv-count">
+            <div class="demo-recv-num" id="he-recvnum-0">15</div>
+            <div class="demo-recv-label">הצעות מוכנות<br>לניתוח</div>
+          </div>
+          <div class="demo-recv-files">
+            <div class="demo-dc" id="he-dc-0-0"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">GlobalBuild_הצעה_v2.pdf</div><div class="demo-dc-size">2.4 MB</div></div></div>
+            <div class="demo-dc" id="he-dc-0-1"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">שפיר_הגשה_סופית.pdf</div><div class="demo-dc-size">1.8 MB</div></div></div>
+            <div class="demo-dc" id="he-dc-0-2"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">אלקטרא_הצעה_R3.pdf</div><div class="demo-dc-size">3.1 MB</div></div></div>
+            <div class="demo-dc" id="he-dc-0-3"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">דניה_סיבוס_הצעה.pdf</div><div class="demo-dc-size">2.0 MB</div></div></div>
+            <div class="demo-dc" id="he-dc-0-4"><div class="demo-dc-icon"></div><div><div class="demo-dc-name">+ 11 הצעות נוספות</div><div class="demo-dc-size">18.7 MB סה&quot;כ</div></div></div>
+          </div>
+        </div>
+        <div class="demo-slide demo-slide-analyze" id="he-0-s1">
+          <div class="demo-analyze-ring"><div class="demo-analyze-glow"></div></div>
+          <div class="demo-analyze-title">מנתח הצעות...</div>
+          <div class="demo-analyze-sub">קורא את כל 15 המסמכים במקביל</div>
+          <div class="demo-analyze-steps">
+            <div class="demo-analyze-step" id="he-as-0-0">קריאת תוכן המסמכים</div>
+            <div class="demo-analyze-step" id="he-as-0-1">חילוץ תנאי ומחירי ההצעה</div>
+            <div class="demo-analyze-step" id="he-as-0-2">בדיקת עמידה בדרישות המכרז</div>
+          </div>
+        </div>
+        <div class="demo-slide" id="he-0-s2">
+          <div class="demo-output-header">
+            <div class="demo-output-check">&#10003;</div>
+            <div class="demo-output-headtxt">הניתוח הושלם <span>&middot; 15 ספקים הושווו</span></div>
+          </div>
+          <table class="demo-tbl">
+            <thead><tr><th>ספק</th><th>הצעה ₪מ</th><th>לוח זמנים</th><th>תואם</th><th>דגל</th></tr></thead>
+            <tbody>
+              <tr class="demo-tbl-row" id="he-tr-0-0"><td>GlobalBuild</td><td>42.3</td><td>18 חודש</td><td><span class="demo-flag ok">כן</span></td><td>&#x2014;</td></tr>
+              <tr class="demo-tbl-row" id="he-tr-0-1"><td>שפיר</td><td>38.7</td><td>22 חודש</td><td><span class="demo-flag ok">כן</span></td><td><span class="demo-winner-flag" id="he-winner-0">★</span></td></tr>
+              <tr class="demo-tbl-row" id="he-tr-0-2"><td>אלקטרא</td><td>45.1</td><td>16 חודש</td><td><span class="demo-flag warn">חלקי</span></td><td>ביטוח</td></tr>
+              <tr class="demo-tbl-row" id="he-tr-0-3"><td>דניה סיבוס</td><td>41.0</td><td>20 חודש</td><td><span class="demo-flag ok">כן</span></td><td>&#x2014;</td></tr>
+              <tr class="demo-tbl-row" id="he-tr-0-4"><td>תדהר</td><td>36.2</td><td>24 חודש</td><td><span class="demo-flag bad">לא</span></td><td>3 סעיפים</td></tr>
+              <tr class="demo-tbl-row" id="he-tr-0-5"><td style="color:#6a8a9e">+ 10 נוספים</td><td colspan="4" style="color:#3a5060">&#x2014;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="demo-progress">
+        <div class="demo-prog-dot active" id="he-pd-0-0"></div>
+        <div class="demo-prog-dot" id="he-pd-0-1"></div>
+        <div class="demo-prog-dot" id="he-pd-0-2"></div>
+      </div>
+    </div>
+
+    <!-- SCENE 1 -->
+    <div class="demo-win" id="demo-scene-he-1" style="display:none">
+      <div class="demo-titlebar">
+        <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+        <div class="demo-title-text" id="demo-title-he-1">Modus · בדיקת נאותות</div>
+      </div>
+      <div class="demo-stage">
+        <div class="demo-intro" id="he-1-intro">
+          <div class="demo-intro-head">247 עמודים.</div>
+          <div class="demo-intro-sub">נקרא בשניות.</div>
+        </div>
+        <div class="demo-slide active" id="he-1-s0">
+          <div class="demo-recv-eyebrow">מסמך התקבל</div>
+          <div class="demo-recv-count">
+            <div class="demo-recv-num" id="he-recvnum-1">247</div>
+            <div class="demo-recv-label">עמודים<br>לבדיקה</div>
+          </div>
+          <div class="demo-pdf" id="he-pdf-1-0">
+            <div class="demo-pdf-icon"></div>
+            <div>
+              <div class="demo-pdf-name">הסכם_מיזוג_SHA_v3.pdf</div>
+              <div class="demo-pdf-meta">8.6 MB · הועלה 09:14 · הסכם M&amp;A</div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-slide demo-slide-analyze" id="he-1-s1">
+          <div class="demo-analyze-ring"><div class="demo-analyze-glow"></div></div>
+          <div class="demo-analyze-title">קורא את ההסכם...</div>
+          <div class="demo-analyze-sub">סורק 247 עמודים לאיתור סעיפי סיכון</div>
+          <div class="demo-analyze-steps">
+            <div class="demo-analyze-step" id="he-as-1-0">פענוח מבנה הסעיפים</div>
+            <div class="demo-analyze-step" id="he-as-1-1">זיהוי גורמי סיכון</div>
+            <div class="demo-analyze-step" id="he-as-1-2">השוואה לסטנדרטים בשוק</div>
+          </div>
+        </div>
+        <div class="demo-slide" id="he-1-s2">
+          <div class="demo-output-header">
+            <div class="demo-output-check warn">!</div>
+            <div class="demo-output-headtxt">הבדיקה הושלמה <span>&middot; 4 סעיפים סומנו</span></div>
+          </div>
+          <div class="demo-iss high" id="he-iss-1-0">
+            <div class="demo-iss-head"><span class="demo-iss-badge">גבוה</span><span class="demo-iss-title">תקרת שיפוי — נמוכה מהמקובל</span></div>
+            <div class="demo-iss-body">§15% מערך העסקה. הטווח המקובל 25–40%.</div>
+          </div>
+          <div class="demo-iss high" id="he-iss-1-1">
+            <div class="demo-iss-head"><span class="demo-iss-badge">גבוה</span><span class="demo-iss-title">תחום אי-תחרות — רחב מדי</span></div>
+            <div class="demo-iss-body">הגבלה עולמית 5 שנים על המייסדים. כנראה לא ניתן לאכיפה.</div>
+          </div>
+          <div class="demo-iss med" id="he-iss-1-2">
+            <div class="demo-iss-head"><span class="demo-iss-badge">בינוני</span><span class="demo-iss-title">מנגנון Earn-out — מדד לא ברור</span></div>
+            <div class="demo-iss-body">ARR מוגדר באי-עקביות בין §2.1 ל-§7.4.</div>
+          </div>
+          <div class="demo-iss low" id="he-iss-1-3">
+            <div class="demo-iss-head"><span class="demo-iss-badge">תקין</span><span class="demo-iss-title">דין חל — עקבי</span></div>
+            <div class="demo-iss-body">הדין הישראלי מצוין לאורך כל המסמך. לא זוהו סתירות.</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-progress">
+        <div class="demo-prog-dot active" id="he-pd-1-0"></div>
+        <div class="demo-prog-dot" id="he-pd-1-1"></div>
+        <div class="demo-prog-dot" id="he-pd-1-2"></div>
+      </div>
+    </div>
+
+    <!-- SCENE 2: Contract → Conflicts -->
+    <div class="demo-win" id="demo-scene-he-2" style="display:none">
+      <div class="demo-titlebar">
+        <div class="demo-dots"><div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div></div>
+        <div class="demo-title-text" id="demo-title-he-2">Modus &middot; ניתוח חוזה</div>
+      </div>
+      <div class="demo-stage">
+        <div class="demo-intro" id="he-2-intro">
+          <div class="demo-intro-head">20:00. העסקה נסגרת מחר.</div>
+          <div class="demo-intro-sub">עמדתם הייתה רוויה חורים.</div>
+        </div>
+        <div class="demo-slide active" id="he-2-s0">
+          <div class="demo-recv-eyebrow">הצעת נגד התקבלה &middot; 20:14</div>
+          <div class="demo-recv-count">
+            <div class="demo-recv-num" id="he-recvnum-2">47</div>
+            <div class="demo-recv-label">עמודות<br>שינויים מוצעים</div>
+          </div>
+          <div class="demo-pdf" id="he-pdf-2-0">
+            <div class="demo-pdf-icon"></div>
+            <div>
+              <div class="demo-pdf-name">הסכם_רכישה_הצעת_נגד.pdf</div>
+              <div class="demo-pdf-meta">3.2 MB &middot; התקבל 20:14 &middot; דחוף — עסקה נסגרת מחר</div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-slide demo-slide-analyze" id="he-2-s1">
+          <div class="demo-analyze-ring"><div class="demo-analyze-glow"></div></div>
+          <div class="demo-analyze-title">מצליב סעיפים...</div>
+          <div class="demo-analyze-sub">ממפה 47 שינויים מול תנאים קיימים</div>
+          <div class="demo-analyze-steps">
+            <div class="demo-analyze-step" id="he-as-2-0">ממפה שינויים מוצעים לתנאים הקיימים</div>
+            <div class="demo-analyze-step" id="he-as-2-1">בודק עקביות פנימית</div>
+            <div class="demo-analyze-step" id="he-as-2-2">מסמן סתירות וחשיפות</div>
+          </div>
+        </div>
+        <div class="demo-slide" id="he-2-s2">
+          <div class="demo-output-header">
+            <div class="demo-output-check warn">!</div>
+            <div class="demo-output-headtxt">נמצאו 3 סתירות <span>&middot; עמדת הקונה רעועה</span></div>
+          </div>
+          <div class="demo-iss high" id="he-iss-2-0">
+            <div class="demo-iss-head"><span class="demo-iss-badge">קריטי</span><span class="demo-iss-title">סעיף 14(ג) סותר גילוי מסעיף 3.2 של הקונה</span></div>
+            <div class="demo-iss-body">הגבלת השיפוי המוצעת סותרת ייצוגים שהקונה עצמו אישר בלוחות הגילוי.</div>
+          </div>
+          <div class="demo-iss high" id="he-iss-2-1">
+            <div class="demo-iss-head"><span class="demo-iss-badge">קריטי</span><span class="demo-iss-title">הרחבת שיפוי מתנגשת עם סעיפות יסוד 9.1</span></div>
+            <div class="demo-iss-body">הרחבת החריגות תחליש את הגנות הקונה עצמו לאחר הסגירה.</div>
+          </div>
+          <div class="demo-iss med" id="he-iss-2-2">
+            <div class="demo-iss-head"><span class="demo-iss-badge">בינוני</span><span class="demo-iss-title">תנאי סגירה מתוקנים — אי בהירות בסעיף 6.4</span></div>
+            <div class="demo-iss-body">לוח הזמנים החדש יוצר סתירה עם התנאים המוקדמים בסעיפות 6.4. נדרש בירור.</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-progress">
+        <div class="demo-prog-dot active" id="he-pd-2-0"></div>
+        <div class="demo-prog-dot" id="he-pd-2-1"></div>
+        <div class="demo-prog-dot" id="he-pd-2-2"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="mid-cta">
+  <p class="mid-cta-p fu">זה נשמע מוכר? <em>בוא נפתור את זה.</em></p>
+  <a href="https://calendly.com/modusit" target="_blank" class="btn-primary fu">קבע שיחה חינם של 30 דקות ←</a>
+</div>
+
+<section class="sec sec-warm" id="steps-he">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label fu"><span class="sec-label-num">✶ 02 —</span>איך זה עובד</span>
+      <h2 class="sec-h2 fu d1">מלמדים פעם אחת. <em style="font-style:italic;color:var(--gold);font-family:'Frank Ruhl Libre',serif;font-size:1.1em;">עובד</em> מאז.</h2>
+    </div>
+    <div class="steps">
+      <div class="step fu d1">
+        <div class="step-n">01</div>
+        <div class="step-t">אנחנו לומדים איך אתם עובדים</div>
+        <div class="step-d">אנחנו נכנסים לתוך תהליך העבודה האמיתי שלכם — מה מגיע, מה הצוות עושה איתו, איך אתם כותבים, מה נראה טוב. לא שאלון. התיקים האמיתיים שלכם.</div>
+      </div>
+      <div class="step fu d2">
+        <div class="step-n">02</div>
+        <div class="step-t">אנחנו מחברים את זה לטריגרים שלכם</div>
+        <div class="step-d">מייל נכנס. חוזה נחתם. דד-ליין מתקרב. מודוס מתחיל לעבוד ברגע שזה קורה — אף אחד לא צריך לזכור ללחוץ על כפתור.</div>
+      </div>
+      <div class="step fu d3">
+        <div class="step-n">03</div>
+        <div class="step-t">אתם בודקים ומאשרים</div>
+        <div class="step-d">העבודה מגיעה מוכנה, בקול שלכם. אתם בודקים, מאשרים, שולחים. כלום לא יוצא מהמשרד בלי האישור שלכם.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="sec sec-navy">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label fu" style="color:rgba(201,168,76,.6)"><span class="sec-label-num">✶ 03 —</span>למה מודוס</span>
+      <h2 class="sec-h2 light fu d1">לא כל AI נוצר <em style="font-style:italic;color:var(--gold);font-family:'Frank Ruhl Libre',serif;font-size:1.1em;">שווה</em></h2>
+      <p class="sec-sub light fu d2">כלים גנריים גורמים לך לעשות את העבודה. מודוס עושה אותה בשבילך.</p>
+    </div>
+    <div class="cmp fu">
+      <div class="cmp-col-head lbl"></div>
+      <div class="cmp-col-head d">ChatGPT וכלי AI גנריים</div>
+      <div class="cmp-col-head g">מודוס</div>
+      <div class="cmp-label">עבודה</div>
+      <div class="cmp-row cmp-d"><div class="dot6 d"></div>אתה מעלה, מנסח, עורך — ועדיין עושה את רוב העבודה</div>
+      <div class="cmp-row cmp-g"><div class="dot6 g"></div><span><strong>עושה את העבודה.</strong> אתה בודק ומאשר</span></div>
+      <div class="cmp-label">קול</div>
+      <div class="cmp-row cmp-d"><div class="dot6 d"></div>תוצאות גנריות שלא נשמעות כמו אף אחד</div>
+      <div class="cmp-row cmp-g"><div class="dot6 g"></div><span>תוצאות שנשמעות כאילו <strong>אתה כתבת אותן</strong></span></div>
+      <div class="cmp-label">זיכרון</div>
+      <div class="cmp-row cmp-d"><div class="dot6 d"></div>אין זיכרון לאיך המשרד שלך עובד</div>
+      <div class="cmp-row cmp-g"><div class="dot6 g"></div><span>נעשה <strong>חכם יותר עם כל תיק</strong> שהוא מטפל בו</span></div>
+      <div class="cmp-label">טריגר</div>
+      <div class="cmp-row cmp-d"><div class="dot6 d"></div>מחכה שתנסח לו פרומפט, כל פעם מחדש</div>
+      <div class="cmp-row cmp-g"><div class="dot6 g"></div><span>מתחיל לעבוד <strong>ברגע שהעבודה מגיעה</strong></span></div>
+    </div>
+  </div>
+</section>
+
+<div class="sleep-break">
+  <p class="sleep-line fu">אנחנו מאמנים את המערכת כדי שהיא <em>תמשיך לעבוד גם כשאתה ישן.</em></p>
+</div>
+
+<section class="sec sec-navylight">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label fu"><span class="sec-label-num">✶ 04 —</span>מה אומרים הלקוחות</span>
+      <h2 class="sec-h2 fu d1">משרדים שעשו את <em style="font-style:italic;color:var(--gold);font-family:'Frank Ruhl Libre',serif;font-size:1.1em;">המעבר</em></h2>
+    </div>
+    <div class="quotes">
+      <div class="qcard fu d1">
+        <div class="qavatar">אק</div>
+        <div class="qmark">"</div>
+        <div class="qtext">פעם בזבזנו ימים שלמים על בדיקות נאותות. מודוס קיצר את זה לכמה שעות — והפלט נשמע כאילו כתב אותו אחד מהשותפים הבכירים שלנו.</div>
+        <div class="qattr">שותף, דיני תאגידים <span>משרד 8 שותפים · תל אביב</span></div>
+      </div>
+      <div class="qcard fu d2">
+        <div class="qavatar">רב</div>
+        <div class="qmark">"</div>
+        <div class="qtext">מה ששכנע אותי לא הייתה המהירות — אלא שהוא כותב בדיוק כמונו. אחרי שבועיים, לא יכולתי להבדיל בין מכתבים שמודוס ניסח לבין מכתבים שכתב הצוות שלי.</div>
+        <div class="qattr">שותף מנהל, ליטיגציה <span>משרד 12 שותפים · ירושלים</span></div>
+      </div>
+      <div class="qcard fu d3">
+        <div class="qavatar">של</div>
+        <div class="qmark">"</div>
+        <div class="qtext">ניסינו כלי AI אחרים ותמיד בסוף עשינו את העבודה פעמיים. מודוס היה שונה — הוא הבין את הפרקטיקה שלנו מהיום הראשון.</div>
+        <div class="qattr">שותף בכיר, נדל"ן <span>משרד 6 שותפים · תל אביב</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-white" id="team-he">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label fu"><span class="sec-label-num">✶ 05 —</span>הסטודיו</span>
+      <h2 class="sec-h2 fu d1">בלי מתווכים. מי שמגדיר את הפרויקט הוא מי שמספק אותו.</h2>
+    </div>
+    <div class="team">
+      <div class="tcard fu d1">
+        <div class="tinit">U</div>
+        <div>
+          <div class="tname">אורי קינן</div>
+          <div class="tbio">15+ שנים בהרחבת חברות טכנולוגיה. מבין איך משרדי עורכי דין עובדים בפועל — ומה הם לא יסבלו.</div>
+        </div>
+      </div>
+      <div class="tcard fu d2">
+        <div class="tinit">Y</div>
+        <div>
+          <div class="tname">יוני מינדל</div>
+          <div class="tbio">משקיע בשלב מוקדם שהפך לבונה AI. שומר שהמערכת תואמת את המציאות שלך, לא לדמו.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fcta">
+  <p class="fcta-trust fu">משרדים שכבר חוסכים 10+ שעות בשבוע על עבודת מסמכים</p>
+  <h2 class="fcta-h fu d1">רוצה לראות את מודוס בפעולה?</h2>
+  <p class="fcta-p fu d2">30 דקות. בלי מצגות. רק תהליכי העבודה שלך.</p>
+  <a href="https://calendly.com/modusit" target="_blank" class="btn-primary fu d2">קבע פגישה</a>
+  <a href="#products-he" class="fcta-secondary fu d3">ראה קודם איך זה עובד ↑</a>
+</div>
+
+</div><!-- /he -->
+
+<!-- FOOTER BAR -->
+<footer class="fbar">
+  <div class="fbar-logo"><span class="logo-m">M</span>ODUS</div>
+  <div class="fbar-contacts">
+    <a href="mailto:hello@modusit.com">hello@modusit.com</a>
+    <span class="sep">·</span>
+    <a href="https://calendly.com/modusit" target="_blank">Book a Demo</a>
+  </div>
+  <div class="fbar-copy">© 2025 Modus</div>
+</footer>
+
+<script>
+// ── LANGUAGE TOGGLE ──
+const langBtn = document.getElementById('lang-btn');
+const enDiv   = document.getElementById('en');
+const heDiv   = document.getElementById('he');
+const hdrCta  = document.getElementById('hdr-cta');
+const html    = document.documentElement;
+let lang = 'en';
+
+function updateNav(isHe) {
+  const navHow  = document.getElementById('nav-how');
+  const navTeam = document.getElementById('nav-team');
+  if (!navHow) return;
+  if (isHe) {
+    navHow.href  = '#steps-he';   navHow.textContent  = 'איך זה עובד';
+    navTeam.href = '#team-he';    navTeam.textContent = 'הצוות';
+  } else {
+    navHow.href  = '#steps-en';   navHow.textContent  = 'How it works';
+    navTeam.href = '#team-en';    navTeam.textContent = 'Team';
+  }
+}
+
+langBtn.addEventListener('click', () => {
+  lang = lang === 'en' ? 'he' : 'en';
+  const isHe = lang === 'he';
+  enDiv.style.display = isHe ? 'none' : '';
+  heDiv.style.display = isHe ? '' : 'none';
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', isHe ? 'rtl' : 'ltr');
+  document.body.classList.toggle('he', isHe);
+  langBtn.textContent = isHe ? 'EN' : 'עב';
+  hdrCta.textContent  = isHe ? 'קבע פגישה' : 'Book a Demo';
+  updateNav(isHe);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  resetAnimations();
+});
+
+// ── SCROLL ANIMATIONS ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+
+function resetAnimations() {
+  document.querySelectorAll('.fu').forEach(el => { el.classList.remove('on'); io.observe(el); });
+}
+resetAnimations();
+
+// ── LOGO TAGLINE FIT ──
+function fitLogoTag() {
+  const name = document.querySelector('.logo-name');
+  const tag  = document.querySelector('.logo-tag');
+  if (!name || !tag) return;
+  tag.style.letterSpacing = '0';
+  requestAnimationFrame(() => {
+    const nameW  = name.getBoundingClientRect().width;
+    const logoLS = parseFloat(getComputedStyle(name).letterSpacing) || 0;
+    const tagW   = tag.getBoundingClientRect().width;
+    const extra  = nameW - logoLS - tagW;
+    const n      = tag.textContent.length - 1;
+    if (n > 0 && extra > 0) tag.style.letterSpacing = (extra / n) + 'px';
+  });
+}
+document.fonts.ready.then(fitLogoTag);
+window.addEventListener('resize', fitLogoTag);
+
+// ── PRODUCTS OBSERVER ──
+(function() {
+  const PRODUCT_MAP = {
+    'email':     { en: 'pd-en-email',    he: 'pd-he-email'    },
+    'redline':   { en: 'pd-en-redline',  he: 'pd-he-redline'  },
+    'timeline':  { en: 'pd-en-timeline', he: 'pd-he-timeline' },
+    'tender':    { en: 'pd-en-tender',   he: 'pd-he-tender'   },
+    'email-he':  { en: 'pd-en-email',    he: 'pd-he-email'    },
+    'redline-he':{ en: 'pd-en-redline',  he: 'pd-he-redline'  },
+    'timeline-he':{ en: 'pd-en-timeline',he: 'pd-he-timeline' },
+    'tender-he': { en: 'pd-en-tender',   he: 'pd-he-tender'   },
+  };
+
+  function activateEntry(entry) {
+    const section = entry.closest('#products-en, #products-he');
+    if (!section) return;
+    const lang = section.id === 'products-en' ? 'en' : 'he';
+    const product = entry.dataset.product;
+    const displayId = (PRODUCT_MAP[product] || {})[lang];
+    if (!displayId) return;
+
+    // Update left entries
+    section.querySelectorAll('.product-entry').forEach(e => e.classList.remove('pe-active'));
+    entry.classList.add('pe-active');
+
+    // Update right displays
+    section.querySelectorAll('.product-display').forEach(d => d.classList.remove('active'));
+    const display = document.getElementById(displayId);
+    if (display) display.classList.add('active');
+  }
+
+  const prodObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) activateEntry(e.target);
+    });
+  }, { threshold: 0.3, rootMargin: '0px 0px -15% 0px' });
+
+  document.querySelectorAll('.product-entry').forEach(el => prodObserver.observe(el));
+
+  // Also wire click on entries
+  document.querySelectorAll('.product-entry').forEach(el => {
+    el.addEventListener('click', () => activateEntry(el));
+  });
+})();
+
+// ── DEMO WIDGET (legacy, no-op) ──
+(function() {
+  const LANGS = ['en', 'he'];
+
+  // Timing constants (ms)
+  const T_INTRO  = 2000;  // intro card hold before animation starts
+  const T_FILE   = 600;   // stagger between file cards
+  const T_HOLD0  = 4000;  // hold after last file before switching to analyze slide
+  const T_STEP   = 1800;  // stagger between analyze steps
+  const T_HOLD1  = 4000;  // hold after last step before output
+  const T_OUT    = 800;   // stagger between output rows/items
+  const T_HOLD2  = 12000; // hold on final output
+  const T_SINGLE = 5000;  // hold for single-item inputs (PDF, email)
+  const T_LETTER = 360;   // stagger between letter lines
+  const T_RESTART= 1200;  // pause before restart
+
+  function el(id) { return document.getElementById(id); }
+
+  function showSlide(lang, sc, idx) {
+    [0,1,2].forEach(i => {
+      const s = el(lang+'-'+sc+'-s'+i);
+      if (s) s.classList.toggle('active', i === idx);
+    });
+    [0,1,2].forEach(i => {
+      const d = el(lang+'-pd-'+sc+'-'+i);
+      if (d) d.classList.toggle('active', i === idx);
+    });
+  }
+
+  function setTitle(lang, sc, txt) {
+    const t = el('demo-title-'+lang+'-'+sc);
+    if (t) t.textContent = txt;
+  }
+
+  function vis(id) { const e = el(id); if (e) e.classList.add('vis'); }
+
+  // Chainable timeout helper — returns array of timer IDs
+  function seq(lang, actions) {
+    const timers = [];
+    let t = 0;
+    actions.forEach(([delay, fn]) => {
+      t += delay;
+      timers.push(setTimeout(fn, t));
+    });
+    return timers;
+  }
+
+  const state = {};
+  LANGS.forEach(lang => { state[lang] = { scene: 0, timers: [], running: false }; });
+
+  function clearTimers(lang) {
+    state[lang].timers.forEach(clearTimeout);
+    state[lang].timers = [];
+  }
+
+  // ── SCENE ANIMATORS ──
+
+  function animTender(lang, onDone) {
+    const L = lang;
+    const isHe = L === 'he';
+    const tt = isHe
+      ? ['Modus · ניתוח מכרזים', 'Modus · מנתח...', 'Modus · הניתוח הושלם ✓']
+      : ['Modus · Tender Analysis', 'Modus · Analyzing...', 'Modus · Analysis Complete ✓'];
+    showSlide(L, 0, 0); setTitle(L, 0, tt[0]);
+    const intro0 = el(L+'-0-intro'); if (intro0) intro0.classList.add('show');
+    const ts = seq(L, [
+      [T_INTRO, () => { if (intro0) intro0.classList.remove('show'); }],
+      [300,  () => vis(L+'-dc-0-0')],
+      [T_FILE, () => vis(L+'-dc-0-1')],
+      [T_FILE, () => vis(L+'-dc-0-2')],
+      [T_FILE, () => vis(L+'-dc-0-3')],
+      [T_FILE, () => {
+        vis(L+'-dc-0-4');
+        const n = el(L+'-recvnum-0'); if (n) n.classList.add('pulse');
+      }],
+      [T_HOLD0, () => { showSlide(L,0,1); setTitle(L,0,tt[1]); }],
+      [250,  () => vis(L+'-as-0-0')],
+      [T_STEP, () => vis(L+'-as-0-1')],
+      [T_STEP, () => vis(L+'-as-0-2')],
+      [T_HOLD1, () => { showSlide(L,0,2); setTitle(L,0,tt[2]); }],
+      [250,  () => vis(L+'-tr-0-0')],
+      [T_OUT, () => vis(L+'-tr-0-1')],
+      [T_OUT, () => vis(L+'-tr-0-2')],
+      [T_OUT, () => vis(L+'-tr-0-3')],
+      [T_OUT, () => vis(L+'-tr-0-4')],
+      [T_OUT, () => vis(L+'-tr-0-5')],
+      [T_OUT + 400, () => {
+        const r = el(L+'-tr-0-1'); if (r) r.classList.add('best');
+      }],
+      [3000, onDone],
+    ]);
+    state[L].timers.push(...ts);
+  }
+
+  function animDueDil(lang, onDone) {
+    const L = lang;
+    const isHe = L === 'he';
+    const tt = isHe
+      ? ['Modus · בדיקת נאותות', 'Modus · קורא...', 'Modus · הבדיקה הושלמה ✓']
+      : ['Modus · Due Diligence', 'Modus · Reading...', 'Modus · Review Complete ✓'];
+    showSlide(L, 1, 0); setTitle(L, 1, tt[0]);
+    const intro1 = el(L+'-1-intro'); if (intro1) intro1.classList.add('show');
+    const ts = seq(L, [
+      [T_INTRO, () => { if (intro1) intro1.classList.remove('show'); }],
+      [400,      () => {
+        vis(L+'-pdf-1-0');
+        const n = el(L+'-recvnum-1'); if (n) n.classList.add('pulse');
+      }],
+      [T_SINGLE, () => { showSlide(L,1,1); setTitle(L,1,tt[1]); }],
+      [250,      () => vis(L+'-as-1-0')],
+      [T_STEP,   () => vis(L+'-as-1-1')],
+      [T_STEP,   () => vis(L+'-as-1-2')],
+      [T_HOLD1,  () => { showSlide(L,1,2); setTitle(L,1,tt[2]); }],
+      [250,      () => vis(L+'-iss-1-0')],
+      [T_OUT+80, () => vis(L+'-iss-1-1')],
+      [T_OUT+80, () => vis(L+'-iss-1-2')],
+      [T_OUT+80, () => {
+        vis(L+'-iss-1-3');
+        setTimeout(() => { [0,1].forEach(i => { const c = el(L+'-iss-1-'+i); if(c) c.classList.add('pulse'); }); }, 500);
+      }],
+      [T_HOLD2,  onDone],
+    ]);
+    state[L].timers.push(...ts);
+  }
+
+  function animContract(lang, onDone) {
+    const L = lang;
+    const isHe = L === 'he';
+    const tt = isHe
+      ? ['Modus · ניתוח חוזה', 'Modus · מצליב סעיפים...', 'Modus · נמצאו סתירות ✓']
+      : ['Modus · Contract Review', 'Modus · Cross-referencing...', 'Modus · Conflicts Found ✓'];
+    showSlide(L, 2, 0); setTitle(L, 2, tt[0]);
+    const intro2 = el(L+'-2-intro'); if (intro2) intro2.classList.add('show');
+    const ts = seq(L, [
+      [T_INTRO, () => { if (intro2) intro2.classList.remove('show'); }],
+      [400,      () => {
+        vis(L+'-pdf-2-0');
+        const n = el(L+'-recvnum-2'); if (n) n.classList.add('pulse');
+      }],
+      [T_SINGLE, () => { showSlide(L,2,1); setTitle(L,2,tt[1]); }],
+      [250,      () => vis(L+'-as-2-0')],
+      [T_STEP,   () => vis(L+'-as-2-1')],
+      [T_STEP,   () => vis(L+'-as-2-2')],
+      [T_HOLD1,  () => { showSlide(L,2,2); setTitle(L,2,tt[2]); }],
+      [250,      () => vis(L+'-iss-2-0')],
+      [T_OUT+80, () => vis(L+'-iss-2-1')],
+      [T_OUT+80, () => {
+        vis(L+'-iss-2-2');
+        setTimeout(() => { [0,1].forEach(i => { const c = el(L+'-iss-2-'+i); if(c) c.classList.add('pulse'); }); }, 500);
+      }],
+      [T_HOLD2,  onDone],
+    ]);
+    state[L].timers.push(...ts);
+  }
+
+  const animators = [animTender, animDueDil, animContract];
+
+  function resetScene(lang, sc) {
+    const win = el('demo-scene-'+lang+'-'+sc);
+    if (win) {
+      win.querySelectorAll('.vis').forEach(e => e.classList.remove('vis'));
+      win.querySelectorAll('.run').forEach(e => e.classList.remove('run'));
+      win.querySelectorAll('.best').forEach(e => e.classList.remove('best'));
+      win.querySelectorAll('.pulse').forEach(e => e.classList.remove('pulse'));
+      win.querySelectorAll('.demo-intro').forEach(e => e.classList.remove('show'));
+    }
+    showSlide(lang, sc, 0);
+  }
+
+  function runScene(lang, sc) {
+    const s = state[lang];
+    s.running = true;
+    animators[sc](lang, () => {
+      const t = setTimeout(() => {
+        if (!s.running) return;
+        const nextSc = (sc + 1) % animators.length;
+        switchScene(lang, nextSc);
+      }, T_RESTART);
+      s.timers.push(t);
+    });
+  }
+
+  function switchScene(lang, newSc) {
+    const s = state[lang];
+    clearTimers(lang);
+    s.running = false;
+    const oldWin = el('demo-scene-'+lang+'-'+s.scene);
+    if (oldWin) oldWin.style.display = 'none';
+    resetScene(lang, s.scene);
+    s.scene = newSc;
+    const newWin = el('demo-scene-'+lang+'-'+newSc);
+    if (newWin) newWin.style.display = '';
+    document.querySelectorAll('#demo-tabs-'+lang+' .demo-tab').forEach((tab,i) => {
+      tab.classList.toggle('active', i === newSc);
+    });
+    runScene(lang, newSc);
+  }
+
+  // Wire tabs
+  LANGS.forEach(lang => {
+    const tabsEl = el('demo-tabs-'+lang);
+    if (!tabsEl) return;
+    tabsEl.addEventListener('click', e => {
+      const tab = e.target.closest('.demo-tab');
+      if (!tab) return;
+      const sc = parseInt(tab.dataset.scene);
+      if (sc !== state[lang].scene) switchScene(lang, sc);
+    });
+  });
+
+  // Start on scroll into view, pause on scroll out
+  const demoSecs = ['demo-en','demo-he'].map(id => el(id)).filter(Boolean);
+  const demoObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const lang = entry.target.id === 'demo-en' ? 'en' : 'he';
+      const s = state[lang];
+      if (entry.isIntersecting && !s.running) {
+        runScene(lang, s.scene);
+      } else if (!entry.isIntersecting && s.running) {
+        clearTimers(lang);
+        s.running = false;
+        resetScene(lang, s.scene);
+      }
+    });
+  }, { threshold: 0.25 });
+  demoSecs.forEach(sec => demoObserver.observe(sec));
+})();
+// ── STICKY SHADOW ──
+window.addEventListener('scroll', () => {
+  document.getElementById('hdr').classList.toggle('scrolled', scrollY > 20);
+}, { passive: true });
+
+// ── COUNT-UP STATS ──
+(function() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function countUp(el, target, suffix, duration) {
+    if (prefersReduced) { el.textContent = target + suffix; return; }
+    const start = performance.now();
+    function step(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * ease) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const statObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('.mini-n[data-target]').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        el.textContent = '0' + suffix;
+        countUp(el, target, suffix, target > 10 ? 1400 : 800);
+      });
+      statObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.hero-minis').forEach(el => statObserver.observe(el));
+})();
+</script>
+</body>
+</html>
