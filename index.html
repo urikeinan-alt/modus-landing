@@ -2141,7 +2141,16 @@ const enDiv   = document.getElementById('en');
 const heDiv   = document.getElementById('he');
 const hdrCta  = document.getElementById('hdr-cta');
 const html    = document.documentElement;
-let lang = 'en';
+let lang = 'he';
+
+// Start in Hebrew
+enDiv.style.display = 'none';
+heDiv.style.display = '';
+html.setAttribute('lang', 'he');
+html.setAttribute('dir', 'rtl');
+document.body.classList.add('he');
+langBtn.textContent = 'EN';
+hdrCta.textContent  = 'קבע פגישה';
 
 function updateNav(isHe) {
   const navHow  = document.getElementById('nav-how');
@@ -2155,6 +2164,7 @@ function updateNav(isHe) {
     navTeam.href = '#team-en';    navTeam.textContent = 'Team';
   }
 }
+updateNav(true);
 
 langBtn.addEventListener('click', () => {
   lang = lang === 'en' ? 'he' : 'en';
